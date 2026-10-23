@@ -1,0 +1,116 @@
+// Store identifiers and quantities only. Display prices come from the catalog.
+// A future checkout endpoint MUST independently validate all items and prices.
+(() => {
+  const KEY = 'stonebridge-cart-v1';
+  let products = [];
+  let cart = [];
+  const money = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
+  const message = text => {
+    const toast = document.querySelector('#cart-message');
+    toast.textContent = text;
+    toast.classList.add('visible');
+    clearTimeout(message.timer);
+    message.timer = setTimeout(() => toast.classList.remove('visible'), 4000);
+  };
+  function normalize(value) {
+    const merged = new Map();
+    if (!Array.isArray(value)) return [];
+    for (const item of value) {
+      if (!item || !Number.isInteger(item.quantity) || item.quantity < 1) continue;
+      const product = products.find(p => p.id === item.productId);
+      if (!product?.sizes.some(s => s.id === item.sizeId)) continue;
+      const key = item.productId + ':' + item.sizeId;
+      const previous = merged.get(key)?.quantity || 0;
+      merged.set(key, { productId: product.id, sizeId: item.sizeId, quantity: Math.min(99, previous + item.quantity) });
+    }
+    return [...merged.values()];
+  }
+  function read() {
+    try { return normalize(JSON.parse(localStorage.getItem(KEY) || '[]')); }
+    catch { return []; }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(cart)); }
+    catch { message('Your basket works for this visit, but this browser could not save it.'); }
+    render();
+  }
+  // Use DOM textContent for all catalog and cart text, avoiding HTML injection.
+  function element(tag, text, className) {
+    const node = document.createElement(tag);
+    if (text !== undefined) node.textContent = text;
+    if (className) node.className = className;
+    return node;
+  }
+  function render() {
+    document.querySelectorAll('[data-cart-count]').forEach(node => node.textContent = cart.reduce((sum, item) => sum + item.quantity, 0));
+    const container = document.querySelector('#cart-items');
+    if (!container) return;
+    container.replaceChildren();
+    let total = 0;
+    if (!cart.length) {
+      container.append(element('h2', 'Your next favorite is waiting.'), element('p', 'Your basket is empty. Explore the pantry to add a jar or two.'));
+      const link = element('a', 'Shop the pantry ↗', 'button');
+      link.href = '/shop';
+      container.append(link);
+    }
+    cart.forEach(item => {
+      const product = products.find(p => p.id === item.productId);
+      const size = product.sizes.find(s => s.id === item.sizeId);
+      total += size.price * item.quantity;
+      const row = element('article', undefined, 'cart-row');
+      const image = element('img'); image.src = '/images/butter.png'; image.alt = ''; image.width = 90;
+      const info = element('div');
+      const link = element('a', product.name); link.href = '/products/' + product.slug;
+      info.append(link, element('p', size.label + ' · ' + money(size.price) + ' each'));
+      const label = element('label', 'Quantity', 'quantity-label');
+      const input = element('input'); input.type = 'number'; input.min = '1'; input.max = '99'; input.value = item.quantity;
+      input.setAttribute('aria-label', 'Quantity for ' + product.name + ', ' + size.label);
+      input.addEventListener('change', () => {
+        const quantity = Number(input.value);
+        if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) { input.value = item.quantity; message('Choose a quantity from 1 to 99.'); return; }
+        item.quantity = quantity; save();
+        // render replaces the input; restore focus for keyboard users.
+        const inputs = container.querySelectorAll('input');
+        inputs[cart.indexOf(item)]?.focus();
+      });
+      label.append(input);
+      const remove = element('button', 'Remove', 'remove-button'); remove.type = 'button';
+      remove.setAttribute('aria-label', 'Remove ' + product.name + ', ' + size.label);
+      remove.addEventListener('click', () => { cart = cart.filter(entry => entry !== item); save(); message(product.name + ' removed from your basket.'); container.querySelector('button, a')?.focus(); });
+      row.append(image, info, label, element('strong', money(size.price * item.quantity)), remove);
+      container.append(row);
+    });
+    document.querySelector('#cart-subtotal').textContent = money(total);
+  }
+  async function init() {
+    const forms = document.querySelectorAll('[data-add-to-cart]');
+    forms.forEach(form => form.querySelector('button').disabled = true);
+    try {
+      const response = await fetch('/api/products');
+      if (!response.ok) throw new Error('Catalog unavailable');
+      products = await response.json();
+      cart = read(); render();
+      forms.forEach(form => {
+        form.querySelector('button').disabled = false;
+        form.addEventListener('submit', event => {
+          event.preventDefault();
+          const quantity = Number(form.elements.quantity.value);
+          const product = products.find(p => p.id === form.dataset.productId);
+          const sizeId = form.elements.size.value;
+          if (!product?.sizes.some(s => s.id === sizeId) || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) return;
+          const existing = cart.find(item => item.productId === product.id && item.sizeId === sizeId);
+          if ((existing?.quantity || 0) + quantity > 99) { message('You can add up to 99 of each jar size.'); return; }
+          if (existing) existing.quantity += quantity;
+          else cart.push({ productId: product.id, sizeId, quantity });
+          save(); message(product.name + ' added to your basket.');
+        });
+      });
+      window.addEventListener('storage', event => { if (event.key === KEY || event.key === null) { cart = read(); render(); } });
+    } catch {
+      message('The pantry could not load. Please refresh to try again.');
+      const container = document.querySelector('#cart-items');
+      if (container) container.textContent = 'Your basket could not load. Refresh this page to try again.';
+    }
+  }
+  init();
+})();

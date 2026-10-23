@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<section class="page-intro">
+  <p class="eyebrow">SOMETHING GOOD IS IN STORE</p>
+  <h1>The nut butter pantry.</h1>
+  <p>Everyday favorites and a few sweet surprises. Find your next spoonful.</p>
+  <p class="sample-label">
+    Sample collection · recipes, sizes, and prices are for demonstration.
+  </p>
+</section>
+
+<section class="section shop-section">
+  <div class="product-grid shop-grid">
+    <% products.forEach(product => { %>
+      <%- include('partials/card', {product}) %>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,1 @@
+{"name":"stonebridge-nut-butters","version":"1.0.0","private":true,"scripts":{"start":"node server.js","dev":"node --watch server.js","build":"node scripts/build.js","test":"node --test"},"engines":{"node":">=20"},"dependencies":{"ejs":"^3.1.10","express":"^4.21.2"}}

@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+
+<section class="page-intro">
+  <p class="eyebrow">FROM OUR PANTRY TO YOURS</p>
+  <h1>A few good questions.</h1>
+  <p>A little help before your next spoonful.</p>
+</section>
+
+<section class="faq-list">
+  <% [
+    [
+      'Can I place an order yet?',
+      'This is a preview storefront. You can explore flavors and try the basket, but ordering and payment are not available yet.'
+    ],
+    [
+      'What ingredients do you use?',
+      'Each flavor page includes a sample ingredient list. Final recipes, allergen labels, and cross-contact information will be published before ordering opens.'
+    ],
+    [
+      'Do your products contain allergens?',
+      'The sample collection includes peanuts and almonds. Do not use these demo recipes to make dietary decisions. Final allergen and preparation information must be confirmed before launch.'
+    ],
+    [
+      'How should I store my nut butter?',
+      'Product-specific storage and shelf-life guidance will be added once the recipes and production process are finalized.'
+    ],
+    [
+      'Where do you ship?',
+      'Shipping areas, rates, processing times, and return policies are still being determined and will be published before orders open.'
+    ],
+    [
+      'Will my basket be saved?',
+      'Your basket is saved in this browser on this device. Clearing browser data removes it, and it does not sync to another device.'
+    ]
+  ].forEach(([question, answer]) => { %>
+    <details>
+      <summary><%= question %></summary>
+      <p><%= answer %></p>
+    </details>
+  <% }) %>
+</section>
+
+<%- include('partials/footer') %>

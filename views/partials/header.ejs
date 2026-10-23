@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Discover Stonebridge Nut Butters: small-batch homemade peanut butter and specialty flavors."
+    >
+    <title><%= title %> | Stonebridge Nut Butters</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/cart.js" defer></script>
+  </head>
+  <body>
+    <div class="announcement">
+      Small batches. Simple pleasures. A little something to savor.
+    </div>
+
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="Stonebridge Nut Butters home">
+        <span>
+          <img src="/images/logo.png" alt="" width="152" height="94">
+        </span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a class="nav-icon-link" href="/" aria-label="Home" <%- page === 'home' ? 'aria-current="page"' : '' %>><img src="/images/home-icon.png" alt=""><span class="nav-label" aria-hidden="true">Home</span></a>
+        <a class="nav-icon-link" href="/shop" aria-label="Shop" <%- page === 'shop' ? 'aria-current="page"' : '' %>><img src="/images/shop-icon.png" alt=""><span class="nav-label" aria-hidden="true">Shop</span></a>
+        <a class="nav-icon-link" href="/about" aria-label="About" <%- page === 'about' ? 'aria-current="page"' : '' %>><img src="/images/about-icon.png" alt=""><span class="nav-label" aria-hidden="true">About</span></a>
+        <a class="nav-icon-link" href="/faq" aria-label="FAQ" <%- page === 'faq' ? 'aria-current="page"' : '' %>><img src="/images/faq-icon.png" alt=""><span class="nav-label" aria-hidden="true">FAQ</span></a>
+      </nav>
+
+      <a class="basket-link nav-icon-link" href="/cart" aria-label="Shopping cart">
+        <img src="/images/cart-icon.png" alt="" width="44" height="44">
+        <span class="nav-label" aria-hidden="true">Cart</span>
+        <span data-cart-count class="count">0</span>
+      </a>
+    </header>
+
+    <main id="main">
