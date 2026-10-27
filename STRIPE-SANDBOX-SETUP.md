@@ -1,3 +1,5 @@
+> Live mode is now supported through explicit configuration. For current live activation instructions, see LIVE-PAYMENTS-SETUP.md. The original sandbox notes below describe the earlier sandbox-only release.
+
 # Stonebridge: Stripe sandbox setup
 
 This update adds test checkout to the sample basket. It cannot accept live keys. Sample prices are validated by the server, not trusted from the browser. No separate Stripe products need to be created.

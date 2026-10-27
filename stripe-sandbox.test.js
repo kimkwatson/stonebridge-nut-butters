@@ -37,7 +37,7 @@ test('status confirms only paid completed sessions for this sandbox and exposes 
   for (const payment_status of ['paid', 'unpaid']) {
     const handler = createHandler('status', env, async () => ({ ok: true, json: async () => ({ livemode: false, status: 'complete', payment_status, metadata: { store: 'stonebridge-sandbox' }, customer_email: 'private@example.com' }) }));
     const result = await handler(statusEvent);
-    assert.deepEqual(JSON.parse(result.body), { paid: payment_status === 'paid' });
+    assert.deepEqual(JSON.parse(result.body), { paid: payment_status === 'paid', sandbox: true });
   }
   const foreign = createHandler('status', env, async () => ({ ok: true, json: async () => ({ livemode: false, metadata: { store: 'other' } }) }));
   assert.equal((await foreign(statusEvent)).statusCode, 404);
@@ -118,4 +118,50 @@ test('invalid destinations and absent fulfillment are rejected before Stripe', a
     const response = await handler({ ...event([item]), body: JSON.stringify({ items: [item], fulfillment }) });
     assert.equal(response.statusCode, 400);
   }
+});
+
+const liveEnv = { STRIPE_MODE: 'live', ENABLE_LIVE_PAYMENTS: 'true', STRIPE_SECRET_KEY: 'sk_live_placeholder', SITE_URL: env.SITE_URL };
+test('live payments require explicit activation and a matching live key', async () => {
+  const fail = async () => assert.fail('Must not call Stripe');
+  for (const settings of [
+    { ...liveEnv, ENABLE_LIVE_PAYMENTS: 'false' },
+    { ...liveEnv, STRIPE_SECRET_KEY: 'sk_test_placeholder' },
+    { ...env, STRIPE_MODE: 'sandbox', STRIPE_SECRET_KEY: 'sk_live_placeholder' },
+    { ...liveEnv, SITE_URL: 'http://localhost:3000' }
+  ]) assert.equal((await createHandler('create', settings, fail)(event([item]))).statusCode, 503);
+});
+test('live checkout preserves prices, fulfillment metadata, and idempotent retry headers', async () => {
+  const requests = [];
+  const handler = createHandler('create', liveEnv, async (url, options) => {
+    requests.push(options);
+    return { ok: true, json: async () => ({ id: 'cs_live_example', livemode: true, url: 'https://checkout.stripe.com/c/pay/cs_live_example' }) };
+  });
+  const attempt = { ...event([item]), body: JSON.stringify({ items: [item], fulfillment: { method: 'pickup' }, attemptId: '550e8400-e29b-41d4-a716-446655440000' }) };
+  const response = await handler(attempt);
+  await handler(attempt);
+  assert.equal(response.statusCode,200);
+  assert.equal(JSON.parse(response.body).mode,'live');
+  const params = new URLSearchParams(requests[0].body);
+  assert.equal(params.get('line_items[0][price_data][unit_amount]'),'1000');
+  assert.equal(params.get('metadata[store]'),'stonebridge-live');
+  assert.match(params.get('payment_intent_data[metadata][items]'),/Classic Peanut Butter/);
+  assert.doesNotMatch(params.get('custom_text[submit][message]'), /Sandbox/);
+  assert.equal(requests[0].headers['Idempotency-Key'], requests[1].headers['Idempotency-Key']);
+});
+test('live mode rejects sandbox sessions before a lookup and mismatched responses after lookup', async () => {
+  const handler = createHandler('summary', liveEnv, async () => assert.fail('Must not retrieve sandbox IDs with live key'));
+  assert.equal((await handler({httpMethod:'GET',queryStringParameters:{session_id:'cs_test_example'}})).statusCode,400);
+  const mismatch = createHandler('create', liveEnv, async () => ({ok:true,json:async()=>({id:'cs_test_example',livemode:false,url:'https://checkout.stripe.com/c/pay/cs_test_example'})}));
+  assert.equal((await mismatch(event([item]))).statusCode,502);
+});
+test('public configuration never returns Stripe credentials', async () => {
+  const response = await createHandler('config',liveEnv)({httpMethod:'GET'});
+  assert.deepEqual(JSON.parse(response.body),{mode:'live'});
+  assert.doesNotMatch(response.body,/sk_live|SECRET_KEY/);
+});
+test('live confirmation is verified with Stripe and distinguished from sandbox', async () => {
+  const handler = createHandler('summary',liveEnv,async url=>({ok:true,json:async()=>url.includes('/line_items?')?{data:[{description:'Classic Peanut Butter — 8 oz jar',quantity:1,amount_total:1000}],has_more:false}:{id:'cs_live_example',livemode:true,status:'complete',payment_status:'paid',metadata:{store:'stonebridge-live',fulfillment:'pickup'},currency:'usd',amount_subtotal:1000,amount_total:1000,total_details:{}}}));
+  const response=await handler({httpMethod:'GET',queryStringParameters:{session_id:'cs_live_example'}});
+  const summary=JSON.parse(response.body);
+  assert.equal(summary.paid,true); assert.equal(summary.sandbox,false); assert.equal(summary.total,1000); assert.equal(summary.fulfillment,'pickup');
 });

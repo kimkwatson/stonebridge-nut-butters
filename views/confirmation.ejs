@@ -6,20 +6,20 @@
 </section>
 <section class="section confirmation-section" aria-label="Payment details">
   <div id="confirmation-summary" class="confirmation-summary" hidden>
-    <p class="sample-label">SANDBOX DEMONSTRATION · No real money was charged. No order will be shipped.</p>
+    <p id="confirmation-mode" class="sample-label" hidden>SANDBOX DEMONSTRATION · No real money was charged. No order will be shipped.</p>
     <h2>Your purchased items.</h2>
     <ul id="confirmation-items" class="confirmation-items"></ul>
     <dl class="confirmation-totals">
       <div><dt>Subtotal</dt><dd id="confirmation-subtotal"></dd></div>
       <div><dt>Shipping / pickup</dt><dd id="confirmation-shipping"></dd></div>
-      <div><dt>Tax (not included in this test)</dt><dd id="confirmation-tax"></dd></div>
+      <div><dt>Tax collected</dt><dd id="confirmation-tax"></dd></div>
       <div id="confirmation-discount-row" hidden><dt>Discount</dt><dd id="confirmation-discount"></dd></div>
-      <div class="confirmation-total"><dt>Total paid (test)</dt><dd id="confirmation-total"></dd></div>
+      <div class="confirmation-total"><dt id="confirmation-total-label">Total paid</dt><dd id="confirmation-total"></dd></div>
     </dl>
     <p class="confirmation-reference">Stripe checkout reference: <span id="confirmation-reference"></span></p>
     <p id="confirmation-fulfillment"></p>
     <h3>What happens next?</h3>
-    <p>This completes the sample checkout. Automatic order emails and fulfillment are not enabled yet. You can return to the pantry and continue exploring.</p>
+    <p id="confirmation-next">Payment details will appear after verification.</p>
   </div>
   <noscript><p>Enable JavaScript to verify this payment and display its summary. Check Stripe before attempting another payment.</p></noscript>
   <div class="confirmation-actions">

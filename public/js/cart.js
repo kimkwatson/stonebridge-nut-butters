@@ -5,6 +5,9 @@
   let products = [];
   let cart = [];
   let checkingOut = false;
+  let checkoutReady = false;
+  let activeMode = 'sandbox';
+  let pendingAttempt;
   let settled = [];
   const money = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
   const message = text => {
@@ -93,7 +96,7 @@
     if (shipping) shipping.textContent = !cart.length ? money(0) : method === 'shipping' ? money(795) : method === 'pickup' ? 'Free' : 'Choose above';
     if (grandTotal) grandTotal.textContent = money(total + (cart.length && method === 'shipping' ? 795 : 0));
     const checkout = document.querySelector('#checkout-button');
-    if (checkout) checkout.disabled = !cart.length || checkingOut;
+    if (checkout) checkout.disabled = !cart.length || checkingOut || !checkoutReady;
   }
   async function setupCheckout() {
     const button = document.querySelector('#checkout-button');
@@ -112,8 +115,25 @@
         : 'Shipping is available to Arizona addresses only, for $7.95 per order.';
       render();
     });
+    if (button) {
+      try {
+        const response = await fetch('/.netlify/functions/checkout-config');
+        const config = await response.json();
+        if (!response.ok || !['live', 'sandbox'].includes(config.mode)) throw new Error('Checkout is unavailable.');
+        activeMode = config.mode;
+        checkoutReady = true;
+        button.textContent = activeMode === 'live' ? 'Secure checkout' : 'Try test checkout';
+        status.textContent = activeMode === 'live' ? 'Pay securely with Stripe.' : 'Sandbox checkout. Use a Stripe test card only.';
+        const note = document.querySelector('#checkout-mode-note');
+        if (note) note.textContent = activeMode === 'live' ? 'Your payment will charge real money.' : 'Sandbox only: no real money is charged.';
+        render();
+      } catch {
+        button.disabled = true;
+        status.textContent = 'Checkout is currently unavailable. Please try again later.';
+      }
+    }
     button?.addEventListener('click', async () => {
-      if (checkingOut || !cart.length) return;
+      if (checkingOut || !cart.length || !checkoutReady) return;
       if (!fulfillmentForm?.reportValidity()) return;
       const fields = fulfillmentForm.elements;
       const fulfillment = { method: fields.method.value };
@@ -123,17 +143,19 @@
       }
       checkingOut = true;
       button.disabled = true;
-      status.textContent = 'Opening Stripe sandbox checkout…';
+      status.textContent = 'Opening secure Stripe checkout…';
       const checkoutItems = cart.map(item => ({ ...item }));
       try {
+        const signature = JSON.stringify({ items: checkoutItems, fulfillment });
+        if (!pendingAttempt || pendingAttempt.signature !== signature) pendingAttempt = { signature, id: crypto.randomUUID() };
         const response = await fetch('/.netlify/functions/create-checkout', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: checkoutItems, fulfillment })
+          body: JSON.stringify({ items: checkoutItems, fulfillment, attemptId: pendingAttempt.id })
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'Checkout could not start.');
         if (new URL(result.url).origin !== 'https://checkout.stripe.com') throw new Error('Invalid checkout address.');
-        if (!/^cs_test_[A-Za-z0-9_]+$/.test(result.sessionId || '')) throw new Error('Invalid checkout reference.');
+        if (!/^cs_(test|live)_[A-Za-z0-9_]+$/.test(result.sessionId || '')) throw new Error('Invalid checkout reference.');
         try {
           localStorage.setItem('stonebridge-checkout-' + result.sessionId, JSON.stringify(checkoutItems));
         } catch { throw new Error('Please allow browser storage before checkout so your purchased items can be removed safely.'); }
@@ -145,19 +167,20 @@
       }
     });
     const query = new URLSearchParams(window.location.search);
-    if (query.get('checkout') === 'canceled') status.textContent = 'Test checkout canceled. Your basket is still here.';
+    if (query.get('checkout') === 'canceled') status.textContent = 'Checkout canceled. Your basket is still here.';
     const id = query.get('session_id');
     if (!id) {
       if (heading) { heading.textContent = 'No payment reference found.'; status.textContent = 'Open this page using the return link from Stripe checkout. No payment has been verified.'; }
       return;
     }
-    status.textContent = 'Checking your test payment with Stripe…';
+    status.textContent = 'Checking your payment with Stripe…';
     try {
       const response = await fetch('/.netlify/functions/' + (summary ? 'checkout-summary' : 'checkout-status') + '?session_id=' + encodeURIComponent(id));
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Could not verify the test payment.');
+      if (!response.ok) throw new Error(result.error || 'Could not verify the payment.');
       if (result.paid) {
-        if (heading) heading.textContent = 'Thank you! Your test payment is confirmed.';
+        const sandbox = result.sandbox !== false;
+        if (heading) heading.textContent = sandbox ? 'Thank you! Your test payment is confirmed.' : 'Thank you! Your payment is confirmed.';
         if (summary) {
           const format = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: result.currency || 'usd' }).format(cents / 100);
           const list = document.querySelector('#confirmation-items');
@@ -176,6 +199,12 @@
           document.querySelector('#confirmation-reference').textContent = result.reference;
           const delivery = document.querySelector('#confirmation-fulfillment');
           if (delivery) delivery.textContent = result.fulfillment === 'pickup' ? 'Selected: free pickup in Mesa.' : result.fulfillment === 'shipping' ? 'Selected: Arizona shipping — $7.95.' : '';
+          const modeNote = document.querySelector('#confirmation-mode');
+          if (modeNote) { modeNote.hidden = !sandbox; modeNote.textContent = 'SANDBOX DEMONSTRATION · No real money was charged. No order will be shipped.'; }
+          const totalLabel = document.querySelector('#confirmation-total-label');
+          if (totalLabel) totalLabel.textContent = sandbox ? 'Total paid (test)' : 'Total paid';
+          const next = document.querySelector('#confirmation-next');
+          if (next) next.textContent = sandbox ? 'This completes the test checkout. No order will be shipped.' : result.fulfillment === 'pickup' ? 'Your payment was received for Mesa pickup. Stonebridge will coordinate pickup arrangements using the email provided at checkout.' : 'Your payment was received for Arizona delivery. Stonebridge will arrange shipping to the address you provided.';
           summary.hidden = false;
         }
         // Re-read after the network request to preserve changes from other tabs.
@@ -194,18 +223,18 @@
           localStorage.removeItem(snapshotKey);
         }
         render();
-        status.textContent = 'Test payment confirmed by Stripe. No real order will be shipped.' +
-          (snapshot || settled.includes(id) ? ' Purchased items have been removed from your basket.' : ' This older checkout has no saved basket reference, so your current basket was left unchanged.');
+        status.textContent = (sandbox ? 'Test payment confirmed by Stripe. No real order will be shipped.' : 'Payment confirmed by Stripe.') +
+          (snapshot || settled.includes(id) ? ' Purchased items have been removed from your basket.' : ' Your current basket was left unchanged because this checkout has no saved basket reference.');
         } catch {
-          status.textContent = 'Test payment confirmed by Stripe. Your browser could not update the saved basket; please remove the purchased items manually. No order will be shipped.';
+          status.textContent = 'Payment confirmed by Stripe. Your browser could not update the saved basket; please remove the purchased items manually.';
         }
       } else {
         if (heading) heading.textContent = result.status === 'expired' ? 'This checkout has expired.' : 'Your payment is not confirmed yet.';
-        status.textContent = 'Stripe has not confirmed a completed test payment. Your basket is still here.';
+        status.textContent = 'Stripe has not confirmed a completed payment. Your basket is still here.';
       }
     } catch {
       if (heading) heading.textContent = 'We could not verify your payment.';
-      status.textContent = 'Could not verify the test payment. Check Stripe’s sandbox Payments page before retrying.';
+      status.textContent = 'Could not verify the payment. Check your payment status with Stonebridge before attempting to pay again.';
     }
     // Keep the reference on the confirmation page so refresh can reload its summary.
     if (!summary) window.history.replaceState(null, '', window.location.pathname);
