@@ -21,8 +21,8 @@ async function returnFromCheckout(paid, stored, snapshot, query = '?session_id=c
   return { stored: JSON.parse(values.get('stonebridge-cart-v1')), status: status.textContent };
 }
 test('confirmed payment removes purchased quantities and preserves later additions', async () => {
-  const result = await returnFromCheckout(true, [item(3), item(1, 'honey')], [item(2)]);
-  assert.deepEqual(result.stored.items, [item(1), item(1, 'honey')]);
+  const result = await returnFromCheckout(true, [item(3), item(1, 'coconut-vanilla')], [item(2)]);
+  assert.deepEqual(result.stored.items, [item(1), item(1, 'coconut-vanilla')]);
   assert.deepEqual(result.stored.settled, ['cs_test_example']);
 });
 test('a return URL cannot clear an unpaid or canceled basket', async () => {

@@ -1,6 +1,71 @@
 [
-  {"id":"classic","slug":"classic-peanut-butter","name":"Classic Peanut Butter","tag":"The everyday favorite","description":"A familiar favorite with a deeply roasted flavor and a lovely, creamy finish. Made for warm toast, apple slices, and straight-from-the-spoon moments.","ingredients":"Sample recipe: roasted peanuts, sea salt.","allergens":"Peanuts","color":"sage","featured":true,"sizes":[{"id":"8oz","label":"8 oz jar","price":800},{"id":"16oz","label":"16 oz jar","price":1400}]},
-  {"id":"honey","slug":"honey-sea-salt","name":"Honey & Sea Salt","tag":"A little sweet, a little salty","description":"Roasted peanut butter meets mellow honey and a pinch of sea salt. A cozy companion to oatmeal, pancakes, and your morning toast.","ingredients":"Sample recipe: roasted peanuts, honey, sea salt.","allergens":"Peanuts","color":"gold","featured":true,"sizes":[{"id":"8oz","label":"8 oz jar","price":1000},{"id":"16oz","label":"16 oz jar","price":1800}]},
-  {"id":"cocoa","slug":"dark-chocolate-peanut","name":"Dark Chocolate Peanut","tag":"For the chocolate lover","description":"Rich cocoa and roasted peanuts come together in a spoonable treat. Try it with strawberries or tucked into a warm crepe.","ingredients":"Sample recipe: roasted peanuts, cocoa, cane sugar, sea salt.","allergens":"Peanuts","color":"berry","featured":true,"sizes":[{"id":"8oz","label":"8 oz jar","price":1100},{"id":"16oz","label":"16 oz jar","price":2000}]},
-  {"id":"almond","slug":"maple-almond","name":"Maple Almond Butter","tag":"Something a little special","description":"Toasty almonds with a gentle maple sweetness. Spread it on sourdough or swirl a spoonful into your favorite breakfast bowl.","ingredients":"Sample recipe: roasted almonds, maple sugar, sea salt.","allergens":"Almonds","color":"blue","featured":false,"sizes":[{"id":"8oz","label":"8 oz jar","price":1300},{"id":"16oz","label":"16 oz jar","price":2400}]}
+  {
+    "id": "classic",
+    "slug": "classic-peanut-butter",
+    "name": "Classic Peanut Butter",
+    "tag": "The everyday favorite",
+    "description": "Classic peanut butter for toast, apple slices, and everyday spoonfuls.",
+    "ingredients": "Contains peanuts. Complete recipe and ingredient label to be confirmed before sales open.",
+    "allergens": "Peanuts",
+    "color": "sage",
+    "featured": true,
+    "sizes": [
+      {
+        "id": "4oz",
+        "label": "4 oz jar",
+        "price": 600
+      },
+      {
+        "id": "8oz",
+        "label": "8 oz jar",
+        "price": 1000
+      }
+    ]
+  },
+  {
+    "id": "pistachio-chocolate",
+    "slug": "pistachio-chocolate",
+    "name": "Pistachio Chocolate",
+    "tag": "Rich, nutty, a little indulgent",
+    "description": "Peanuts, macadamia nuts, pistachios, and chocolate come together in a rich specialty spread.",
+    "ingredients": "Known ingredients include peanuts, macadamia nuts, pistachios, and chocolate. Complete ingredient list, including chocolate ingredients, to be confirmed before sales open.",
+    "allergens": "Peanuts, macadamia nuts, pistachios. Additional allergens in chocolate and cross-contact information must be confirmed",
+    "color": "berry",
+    "featured": true,
+    "sizes": [
+      {
+        "id": "4oz",
+        "label": "4 oz jar",
+        "price": 900
+      },
+      {
+        "id": "8oz",
+        "label": "8 oz jar",
+        "price": 1500
+      }
+    ]
+  },
+  {
+    "id": "coconut-vanilla",
+    "slug": "coconut-vanilla",
+    "name": "Coconut Vanilla",
+    "tag": "A little tropical comfort",
+    "description": "Peanuts and macadamia nuts with coconut and vanilla for a specialty spoonful.",
+    "ingredients": "Known ingredients include peanuts, macadamia nuts, coconut, and vanilla. Complete recipe and ingredient label to be confirmed before sales open.",
+    "allergens": "Peanuts, macadamia nuts; also contains coconut. Cross-contact information must be confirmed",
+    "color": "gold",
+    "featured": true,
+    "sizes": [
+      {
+        "id": "4oz",
+        "label": "4 oz jar",
+        "price": 1000
+      },
+      {
+        "id": "8oz",
+        "label": "8 oz jar",
+        "price": 1700
+      }
+    ]
+  }
 ]

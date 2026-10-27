@@ -37,8 +37,14 @@ If checkout says it is not configured, check the variables, runtime scope, deplo
 
 ## Before real sales
 
-This is a sandbox integration, not order fulfillment. Shipping and tax are excluded; no physical order is created, no shipping address is collected, and no customer fulfillment email is sent. Stripe stores the test payment. The return page retrieves its status; no webhook or durable order system is included yet.
+This is a sandbox integration, not order fulfillment. Arizona shipping is $7.95 per order and Mesa pickup is free. Shipping addresses are collected on the basket page and attached to the Stripe test payment; tax is not configured. No physical order is created and no customer fulfillment email is sent. Stripe stores the test payment. The return page retrieves its status; no webhook or durable order system is included yet.
 
 Before enabling real payments, implement verified webhooks and durable, idempotent order recording; configure final products, shipping, tax decisions, customer contact and fulfillment; add abuse/rate controls; and perform end-to-end testing. Live keys are intentionally rejected by this code and require a separate reviewed change.
 
 References: https://docs.stripe.com/payments/checkout ; https://docs.stripe.com/testing ; https://docs.netlify.com/build/functions/overview/
+
+## Approved catalog and delivery update
+
+Classic: $6 / 4 oz, $10 / 8 oz. Pistachio Chocolate: $9 / 4 oz, $15 / 8 oz. Coconut Vanilla: $10 / 4 oz, $17 / 8 oz. All contain peanuts; both specialty flavors contain macadamias and Pistachio Chocolate also contains pistachios. Full ingredient and cross-contact details still require confirmation.
+
+Choose Arizona shipping ($7.95 per order) or Mesa pickup (free) on the basket page. The shipping form requires an Arizona address; the server controls the fee and attaches the address to the Stripe payment. Do not add Stripe shipping-address collection without reviewing state restrictions. This remains sandbox-only; no live key or environment setting changes are required for this update.

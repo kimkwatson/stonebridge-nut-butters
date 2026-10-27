@@ -682,26 +682,6 @@ details p {
     max-width: 400px;
     margin: auto;
   }
-  /* 1. The container stays the exact same size and crops anything that spills out */
-  .story-art {
-    width: 300px;  /* Or whatever size you need */
-    height: 200px;
-    overflow: hidden; 
-  }
-
-  /* 2. Target the image inside the container */
-  .story-art img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures the image fills the space nicely */
-    transition: transform 0.3s ease; /* Makes the zoom look smooth */
-  }
-
-  /* 3. Scale only the image when hovering over the container */
-  .story-art:hover img {
-    transform: scale(1.5); 
-  }
-
   .closing {
     padding-top: 45px;
   }
@@ -899,3 +879,16 @@ nav a[href="/"] img {
 .confirmation-total { font-weight: bold; border-top: 1px solid #bbc5ad; margin-top: 12px; padding-top: 18px !important; }
 .confirmation-reference { font-size: 11px; overflow-wrap: anywhere; }
 .confirmation-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px; margin: 28px 0; }
+
+.fulfillment-form { display: grid; gap: 10px; margin: 24px 0; font-size: 13px; }
+.fulfillment-form fieldset { border: 1px solid #a4ae98; padding: 14px; display: grid; gap: 8px; min-width: 0; }
+.fulfillment-form fieldset[hidden] { display: none; }
+.fulfillment-form input, .fulfillment-form select { width: 100%; }
+
+/* Still-image frames stay fixed while their images zoom within the crop. */
+.story-art.image-zoom { width: 100%; aspect-ratio: 3 / 2; overflow: hidden; }
+.story-art.image-zoom > img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .story-art.image-zoom > img { transition: transform 450ms ease; }
+  .story-art.image-zoom:hover > img { transform: scale(1.5); }
+}

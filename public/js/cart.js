@@ -87,6 +87,11 @@
       container.append(row);
     });
     document.querySelector('#cart-subtotal').textContent = money(total);
+    const method = document.querySelector('#fulfillment-method')?.value;
+    const shipping = document.querySelector('#cart-shipping');
+    const grandTotal = document.querySelector('#cart-total');
+    if (shipping) shipping.textContent = !cart.length ? money(0) : method === 'shipping' ? money(795) : method === 'pickup' ? 'Free' : 'Choose above';
+    if (grandTotal) grandTotal.textContent = money(total + (cart.length && method === 'shipping' ? 795 : 0));
     const checkout = document.querySelector('#checkout-button');
     if (checkout) checkout.disabled = !cart.length || checkingOut;
   }
@@ -96,8 +101,26 @@
     if (!status) return;
     const heading = document.querySelector('#confirmation-heading');
     const summary = document.querySelector('#confirmation-summary');
+    const fulfillmentForm = document.querySelector('#fulfillment-form');
+    const methodSelect = document.querySelector('#fulfillment-method');
+    methodSelect?.addEventListener('change', () => {
+      const fields = document.querySelector('#shipping-fields');
+      fields.hidden = methodSelect.value !== 'shipping';
+      fields.disabled = fields.hidden;
+      document.querySelector('#fulfillment-note').textContent = methodSelect.value === 'pickup'
+        ? 'Free pickup in Mesa. Pickup timing and location must be arranged with Stonebridge.'
+        : 'Shipping is available to Arizona addresses only, for $7.95 per order.';
+      render();
+    });
     button?.addEventListener('click', async () => {
       if (checkingOut || !cart.length) return;
+      if (!fulfillmentForm?.reportValidity()) return;
+      const fields = fulfillmentForm.elements;
+      const fulfillment = { method: fields.method.value };
+      if (fulfillment.method === 'shipping') {
+        fulfillment.name = fields.recipient.value;
+        fulfillment.address = { line1: fields.line1.value, line2: fields.line2.value, city: fields.city.value, state: fields.state.value, postalCode: fields.postal.value };
+      }
       checkingOut = true;
       button.disabled = true;
       status.textContent = 'Opening Stripe sandbox checkout…';
@@ -105,7 +128,7 @@
       try {
         const response = await fetch('/.netlify/functions/create-checkout', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: checkoutItems })
+          body: JSON.stringify({ items: checkoutItems, fulfillment })
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'Checkout could not start.');
@@ -151,6 +174,8 @@
           }
           document.querySelector('#confirmation-discount-row').hidden = !result.discount;
           document.querySelector('#confirmation-reference').textContent = result.reference;
+          const delivery = document.querySelector('#confirmation-fulfillment');
+          if (delivery) delivery.textContent = result.fulfillment === 'pickup' ? 'Selected: free pickup in Mesa.' : result.fulfillment === 'shipping' ? 'Selected: Arizona shipping — $7.95.' : '';
           summary.hidden = false;
         }
         // Re-read after the network request to preserve changes from other tabs.

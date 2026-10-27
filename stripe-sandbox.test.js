@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { createHandler } = require('./lib/stripe-sandbox');
 const env = { ENABLE_STRIPE_SANDBOX: 'true', STRIPE_SECRET_KEY: 'sk_test_placeholder', SITE_URL: 'https://stonebridgenutbutters.com' };
-const event = items => ({ httpMethod: 'POST', headers: { origin: env.SITE_URL, 'content-type': 'application/json' }, body: JSON.stringify({ items }) });
+const event = items => ({ httpMethod: 'POST', headers: { origin: env.SITE_URL, 'content-type': 'application/json' }, body: JSON.stringify({ items, fulfillment: { method: 'pickup' } }) });
 const item = { productId: 'classic', sizeId: '8oz', quantity: 2 };
 
 test('checkout uses authoritative catalog prices and sandbox return URLs', async () => {
@@ -14,7 +14,7 @@ test('checkout uses authoritative catalog prices and sandbox return URLs', async
   });
   const response = await handler(event([{ ...item, price: 1, name: 'Tampered' }]));
   assert.equal(response.statusCode, 200);
-  assert.equal(params.get('line_items[0][price_data][unit_amount]'), '800');
+  assert.equal(params.get('line_items[0][price_data][unit_amount]'), '1000');
   assert.equal(params.get('line_items[0][quantity]'), '2');
   assert.equal([...params.keys()].some(key => key.startsWith('payment_method_types')), false);
   assert.match(params.get('success_url'), /^https:\/\/stonebridgenutbutters.com\/confirmation\/\?session_id=/);
@@ -87,4 +87,35 @@ test('line-item failures cannot produce a false confirmation summary', async () 
   const handler = createHandler('summary', env, async url => ({ ok: !url.includes('/line_items?'), json: async () => ({ livemode: false, status: 'complete', payment_status: 'paid', metadata: { store: 'stonebridge-sandbox' } }) }));
   const response = await handler({ httpMethod: 'GET', queryStringParameters: { session_id: 'cs_test_example' } });
   assert.equal(response.statusCode, 502);
+});
+
+test('all six approved jar prices come from the catalog', () => {
+  const catalog = require('./data/products.json');
+  assert.equal(catalog.length, 3);
+  assert.deepEqual(catalog.map(p => p.sizes.map(s => [s.id, s.price])), [
+    [['4oz', 600], ['8oz', 1000]], [['4oz', 900], ['8oz', 1500]], [['4oz', 1000], ['8oz', 1700]]
+  ]);
+});
+test('Arizona shipping is fixed at 795 cents and pickup at zero regardless of submitted fee', async () => {
+  for (const method of ['shipping', 'pickup']) {
+    let params;
+    const handler = createHandler('create', env, async (url, options) => {
+      params = new URLSearchParams(options.body);
+      return { ok: true, json: async () => ({ id: 'cs_test_example', livemode: false, url: 'https://checkout.stripe.com/c/pay/cs_test_example' }) };
+    });
+    const fulfillment = { method, fee: 0, name: 'Test Recipient', address: { line1: '123 Test Street', city: 'Mesa', state: 'AZ', postalCode: '85201' } };
+    const response = await handler({ ...event([item]), body: JSON.stringify({ items: [item], fulfillment }) });
+    assert.equal(response.statusCode, 200);
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]'), method === 'shipping' ? '795' : '0');
+    assert.equal(params.get('metadata[fulfillment]'), method);
+    assert.equal(params.get('payment_intent_data[shipping][address][state]'), method === 'shipping' ? 'AZ' : null);
+    assert.equal(params.has('shipping_address_collection[allowed_countries][0]'), false);
+  }
+});
+test('invalid destinations and absent fulfillment are rejected before Stripe', async () => {
+  const handler = createHandler('create', env, async () => assert.fail('Must not call Stripe'));
+  for (const fulfillment of [undefined, { method: 'unknown' }, { method: 'shipping' }, { method: 'shipping', name: 'Test', address: { line1: 'Test', city: 'Test', state: 'CA', postalCode: '90001' } }]) {
+    const response = await handler({ ...event([item]), body: JSON.stringify({ items: [item], fulfillment }) });
+    assert.equal(response.statusCode, 400);
+  }
 });
