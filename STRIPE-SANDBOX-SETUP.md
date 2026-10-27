@@ -31,7 +31,7 @@ Keep `SITE_URL` consistent with the browser address used to test; `www` and the 
 3. Use test card `4242 4242 4242 4242`, a future expiry, and any three-digit CVC. Use dummy details, never real card details.
 4. Complete checkout. The return page should say the test payment was confirmed. Verify the payment in Stripe's sandbox Payments page.
 5. Cancel a new checkout and check that the basket remains. Test a decline with `4000 0000 0000 0002`.
-6. Refresh and retry as needed. The sample basket is deliberately retained for repeated tests. Each click can create a new test session; do not interpret it as a real order.
+6. Refresh and retry as needed. Purchased quantities are removed from the same browser basket only after Stripe confirms payment. Items added afterward remain. Each click can create a new test session; do not interpret it as a real order.
 
 If checkout says it is not configured, check the variables, runtime scope, deployment context, and redeploy. A missing function usually means only static files were uploaded.
 

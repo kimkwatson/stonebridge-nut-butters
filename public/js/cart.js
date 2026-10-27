@@ -1,10 +1,11 @@
 // Store identifiers and quantities only. Display prices come from the catalog.
-// A future checkout endpoint MUST independently validate all items and prices.
+// Checkout independently validates all items and prices on the server.
 (() => {
   const KEY = 'stonebridge-cart-v1';
   let products = [];
   let cart = [];
   let checkingOut = false;
+  let settled = [];
   const money = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
   const message = text => {
     const toast = document.querySelector('#cart-message');
@@ -27,11 +28,15 @@
     return [...merged.values()];
   }
   function read() {
-    try { return normalize(JSON.parse(localStorage.getItem(KEY) || '[]')); }
+    try {
+      const stored = JSON.parse(localStorage.getItem(KEY) || '[]');
+      settled = Array.isArray(stored?.settled) ? stored.settled : [];
+      return normalize(Array.isArray(stored) ? stored : stored.items);
+    }
     catch { return []; }
   }
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(cart)); }
+    try { localStorage.setItem(KEY, JSON.stringify({ items: cart, settled })); }
     catch { message('Your basket works for this visit, but this browser could not save it.'); }
     render();
   }
@@ -94,14 +99,19 @@
       checkingOut = true;
       button.disabled = true;
       status.textContent = 'Opening Stripe sandbox checkout…';
+      const checkoutItems = cart.map(item => ({ ...item }));
       try {
         const response = await fetch('/.netlify/functions/create-checkout', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: cart })
+          body: JSON.stringify({ items: checkoutItems })
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'Checkout could not start.');
         if (new URL(result.url).origin !== 'https://checkout.stripe.com') throw new Error('Invalid checkout address.');
+        if (!/^cs_test_[A-Za-z0-9_]+$/.test(result.sessionId || '')) throw new Error('Invalid checkout reference.');
+        try {
+          localStorage.setItem('stonebridge-checkout-' + result.sessionId, JSON.stringify(checkoutItems));
+        } catch { throw new Error('Please allow browser storage before checkout so your purchased items can be removed safely.'); }
         window.location.assign(result.url);
       } catch (error) {
         status.textContent = error.message === 'Failed to fetch' ? 'Checkout could not connect. Please try again.' : error.message;
@@ -118,9 +128,27 @@
       const response = await fetch('/.netlify/functions/checkout-status?session_id=' + encodeURIComponent(id));
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Could not verify the test payment.');
-      status.textContent = result.paid
-        ? 'Test payment confirmed by Stripe. No real order was placed or will be shipped. Your sample basket is kept for further testing.'
-        : 'Stripe has not confirmed a completed test payment. Your basket is still here.';
+      if (result.paid) {
+        // Re-read after the network request to preserve changes from other tabs.
+        cart = read();
+        const snapshotKey = 'stonebridge-checkout-' + id;
+        const snapshot = localStorage.getItem(snapshotKey);
+        if (snapshot && !settled.includes(id)) {
+          const purchased = normalize(JSON.parse(snapshot));
+          const remaining = window.StonebridgeCart.subtractPurchased(cart, purchased);
+          // Save basket and receipt together: refreshing cannot subtract twice.
+          const receipts = [...settled, id];
+          localStorage.setItem(KEY, JSON.stringify({ items: remaining, settled: receipts }));
+          cart = remaining;
+          settled = receipts;
+          localStorage.removeItem(snapshotKey);
+        }
+        render();
+        status.textContent = 'Test payment confirmed by Stripe. No real order will be shipped.' +
+          (snapshot || settled.includes(id) ? ' Purchased items have been removed from your basket.' : ' This older checkout has no saved basket reference, so your current basket was left unchanged.');
+      } else {
+        status.textContent = 'Stripe has not confirmed a completed test payment. Your basket is still here.';
+      }
     } catch {
       status.textContent = 'Could not verify the test payment. Check Stripe’s sandbox Payments page before retrying.';
     }

@@ -1,6 +1,6 @@
 <%- include('partials/header') %>
 
-<section class="hero">
+<section class="hero home-hero">
   <div class="hero-copy">
     <p class="eyebrow">HOMEMADE. HEARTFELT. ALWAYS A GOOD IDEA.</p>
     <h1>A little goodness,<br>in every <em>jar.</em></h1>
@@ -20,7 +20,7 @@
     <div class="arch">
       <img
         src="/images/peanut-jar.png"
-        alt="Watercolor illustration of an open jar of nut butter"
+        alt="Stonebridge peanut butter photographed in its jar"
       >
       <span class="round-stamp">
         SMALL BATCH<br>
@@ -58,7 +58,7 @@
 
 <section class="story-band">
   <div class="story-art">
-    <img src="/images/bridge.png" alt="Watercolor stone bridge surrounded by trees">
+    <img src="/images/bridge.png" loading="lazy" decoding="async" alt="Watercolor stone bridge surrounded by trees">
   </div>
   <div>
     <p class="eyebrow">A BRIDGE TO SOMETHING GOOD</p>
@@ -73,7 +73,10 @@
 
 <section class="story-band">
   <div class="story-art">
-    <img src="/images/blender-video.mp4" alt="Watercolor stone bridge surrounded by trees">
+    <video class="making-video" data-visible-loop muted loop playsinline preload="none" poster="/images/blender-landscape.png" aria-label="Watch Stonebridge nut butter being blended">
+      <source data-src="/images/blender-video.mp4" type="video/mp4">
+      Stonebridge nut butter being blended in small batches.
+    </video>
   </div>
   <div>
     <p class="eyebrow">MADE FRESH</p>
@@ -91,6 +94,7 @@
   <a class="button" href="/shop">Explore the pantry ↗</a>
   <img
     src="/images/nuts.png"
+    loading="lazy" decoding="async"
     alt="Watercolor peanuts, almonds, cashews, pistachios, and pecans"
   >
 </section>
