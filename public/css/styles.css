@@ -682,9 +682,26 @@ details p {
     max-width: 400px;
     margin: auto;
   }
-  .story-art:hover {
-    zoom: 1.5;
+  /* 1. The container stays the exact same size and crops anything that spills out */
+  .story-art {
+    width: 300px;  /* Or whatever size you need */
+    height: 200px;
+    overflow: hidden; 
   }
+
+  /* 2. Target the image inside the container */
+  .story-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the space nicely */
+    transition: transform 0.3s ease; /* Makes the zoom look smooth */
+  }
+
+  /* 3. Scale only the image when hovering over the container */
+  .story-art:hover img {
+    transform: scale(1.5); 
+  }
+
   .closing {
     padding-top: 45px;
   }
