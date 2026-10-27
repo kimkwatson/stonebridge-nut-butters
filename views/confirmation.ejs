@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+<section class="page-intro confirmation-intro">
+  <p class="eyebrow">A LITTLE GOODNESS, ON ITS WAY</p>
+  <h1 id="confirmation-heading">Checking your payment…</h1>
+  <p id="checkout-status" role="status" aria-live="polite">Please wait while we confirm your payment with Stripe.</p>
+</section>
+<section class="section confirmation-section" aria-label="Payment details">
+  <div id="confirmation-summary" class="confirmation-summary" hidden>
+    <p class="sample-label">SANDBOX DEMONSTRATION · No real money was charged. No order will be shipped.</p>
+    <h2>Your purchased items.</h2>
+    <ul id="confirmation-items" class="confirmation-items"></ul>
+    <dl class="confirmation-totals">
+      <div><dt>Subtotal</dt><dd id="confirmation-subtotal"></dd></div>
+      <div><dt>Shipping (not included in this test)</dt><dd id="confirmation-shipping"></dd></div>
+      <div><dt>Tax (not included in this test)</dt><dd id="confirmation-tax"></dd></div>
+      <div id="confirmation-discount-row" hidden><dt>Discount</dt><dd id="confirmation-discount"></dd></div>
+      <div class="confirmation-total"><dt>Total paid (test)</dt><dd id="confirmation-total"></dd></div>
+    </dl>
+    <p class="confirmation-reference">Stripe checkout reference: <span id="confirmation-reference"></span></p>
+    <h3>What happens next?</h3>
+    <p>This completes the sample checkout. Automatic order emails and fulfillment are not enabled yet. You can return to the pantry and continue exploring.</p>
+  </div>
+  <noscript><p>Enable JavaScript to verify this payment and display its summary. Check Stripe before attempting another payment.</p></noscript>
+  <div class="confirmation-actions">
+    <a class="button" href="/shop">Back to the pantry ↗</a>
+    <a class="text-link" href="/cart">View your basket</a>
+  </div>
+</section>
+<%- include('partials/footer') %>

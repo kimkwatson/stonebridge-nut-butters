@@ -18,6 +18,7 @@ app.get('/products/:slug', (req, res, next) => {
 for (const page of ['about', 'faq', 'cart']) {
   app.get('/' + page, (req, res) => res.render(page, { title: {about: 'Our story', faq: 'A few good questions', cart: 'Your basket'}[page], page }));
 }
+app.get('/confirmation', (req, res) => res.render('confirmation', { title: 'Payment confirmation', page: 'confirmation' }));
 app.use((req, res) => res.status(404).render('404', { title: 'Page not found', page: '' }));
 if (require.main === module) app.listen(process.env.PORT || 3000, () => console.log('Stonebridge is ready at http://localhost:' + (process.env.PORT || 3000)));
 module.exports = app;

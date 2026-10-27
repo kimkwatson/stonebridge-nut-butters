@@ -17,7 +17,7 @@ test('checkout uses authoritative catalog prices and sandbox return URLs', async
   assert.equal(params.get('line_items[0][price_data][unit_amount]'), '800');
   assert.equal(params.get('line_items[0][quantity]'), '2');
   assert.equal([...params.keys()].some(key => key.startsWith('payment_method_types')), false);
-  assert.match(params.get('success_url'), /^https:\/\/stonebridgenutbutters.com\/cart\/\?session_id=/);
+  assert.match(params.get('success_url'), /^https:\/\/stonebridgenutbutters.com\/confirmation\/\?session_id=/);
 });
 
 test('invalid carts, wrong origins, malformed JSON and live keys never reach Stripe', async () => {
@@ -49,4 +49,42 @@ test('Stripe errors do not expose internal API details or secrets', async () => 
   const response = await handler(event([item]));
   assert.equal(response.statusCode, 502);
   assert.doesNotMatch(response.body, /private|API key/);
+});
+
+test('confirmation summary uses Stripe line items and totals without disclosing customer details', async () => {
+  const paths = [];
+  const handler = createHandler('summary', env, async url => {
+    paths.push(url);
+    return { ok: true, json: async () => url.includes('/line_items?') ? {
+      data: [{ description: 'Classic Peanut Butter — 8 oz jar', quantity: 2, amount_total: 1600 }], has_more: false
+    } : {
+      id: 'cs_test_example', livemode: false, status: 'complete', payment_status: 'paid', metadata: { store: 'stonebridge-sandbox' },
+      currency: 'usd', amount_subtotal: 1600, amount_total: 1600, total_details: {}, customer_email: 'private@example.com'
+    } };
+  });
+  const response = await handler({ httpMethod: 'GET', queryStringParameters: { session_id: 'cs_test_example' } });
+  const summary = JSON.parse(response.body);
+  assert.equal(response.statusCode, 200);
+  assert.equal(summary.total, 1600);
+  assert.equal(summary.items[0].quantity, 2);
+  assert.equal(summary.items[0].total, 1600);
+  assert.equal(summary.reference, 'cs_test_example');
+  assert.equal(summary.sandbox, true);
+  assert.match(paths[1], /line_items\?limit=100$/);
+  assert.doesNotMatch(response.body, /private@example.com|customer_email/);
+});
+test('unpaid and expired sessions never return a purchased-items summary', async () => {
+  let requests = 0;
+  const handler = createHandler('summary', env, async () => {
+    requests++;
+    return { ok: true, json: async () => ({ livemode: false, status: 'expired', payment_status: 'unpaid', metadata: { store: 'stonebridge-sandbox' } }) };
+  });
+  const response = await handler({ httpMethod: 'GET', queryStringParameters: { session_id: 'cs_test_example' } });
+  assert.deepEqual(JSON.parse(response.body), { paid: false, status: 'expired' });
+  assert.equal(requests, 1);
+});
+test('line-item failures cannot produce a false confirmation summary', async () => {
+  const handler = createHandler('summary', env, async url => ({ ok: !url.includes('/line_items?'), json: async () => ({ livemode: false, status: 'complete', payment_status: 'paid', metadata: { store: 'stonebridge-sandbox' } }) }));
+  const response = await handler({ httpMethod: 'GET', queryStringParameters: { session_id: 'cs_test_example' } });
+  assert.equal(response.statusCode, 502);
 });

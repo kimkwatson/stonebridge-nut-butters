@@ -93,8 +93,10 @@
   async function setupCheckout() {
     const button = document.querySelector('#checkout-button');
     const status = document.querySelector('#checkout-status');
-    if (!button || !status) return;
-    button.addEventListener('click', async () => {
+    if (!status) return;
+    const heading = document.querySelector('#confirmation-heading');
+    const summary = document.querySelector('#confirmation-summary');
+    button?.addEventListener('click', async () => {
       if (checkingOut || !cart.length) return;
       checkingOut = true;
       button.disabled = true;
@@ -122,14 +124,37 @@
     const query = new URLSearchParams(window.location.search);
     if (query.get('checkout') === 'canceled') status.textContent = 'Test checkout canceled. Your basket is still here.';
     const id = query.get('session_id');
-    if (!id) return;
+    if (!id) {
+      if (heading) { heading.textContent = 'No payment reference found.'; status.textContent = 'Open this page using the return link from Stripe checkout. No payment has been verified.'; }
+      return;
+    }
     status.textContent = 'Checking your test payment with Stripe…';
     try {
-      const response = await fetch('/.netlify/functions/checkout-status?session_id=' + encodeURIComponent(id));
+      const response = await fetch('/.netlify/functions/' + (summary ? 'checkout-summary' : 'checkout-status') + '?session_id=' + encodeURIComponent(id));
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Could not verify the test payment.');
       if (result.paid) {
+        if (heading) heading.textContent = 'Thank you! Your test payment is confirmed.';
+        if (summary) {
+          const format = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: result.currency || 'usd' }).format(cents / 100);
+          const list = document.querySelector('#confirmation-items');
+          list.replaceChildren();
+          result.items.forEach(item => {
+            const row = element('li');
+            const name = element('span', item.name);
+            name.append(element('small', 'Quantity: ' + item.quantity));
+            row.append(name, element('strong', format(item.total)));
+            list.append(row);
+          });
+          for (const field of ['subtotal', 'shipping', 'tax', 'discount', 'total']) {
+            document.querySelector('#confirmation-' + field).textContent = (field === 'discount' ? '−' : '') + format(result[field]);
+          }
+          document.querySelector('#confirmation-discount-row').hidden = !result.discount;
+          document.querySelector('#confirmation-reference').textContent = result.reference;
+          summary.hidden = false;
+        }
         // Re-read after the network request to preserve changes from other tabs.
+        try {
         cart = read();
         const snapshotKey = 'stonebridge-checkout-' + id;
         const snapshot = localStorage.getItem(snapshotKey);
@@ -146,13 +171,19 @@
         render();
         status.textContent = 'Test payment confirmed by Stripe. No real order will be shipped.' +
           (snapshot || settled.includes(id) ? ' Purchased items have been removed from your basket.' : ' This older checkout has no saved basket reference, so your current basket was left unchanged.');
+        } catch {
+          status.textContent = 'Test payment confirmed by Stripe. Your browser could not update the saved basket; please remove the purchased items manually. No order will be shipped.';
+        }
       } else {
+        if (heading) heading.textContent = result.status === 'expired' ? 'This checkout has expired.' : 'Your payment is not confirmed yet.';
         status.textContent = 'Stripe has not confirmed a completed test payment. Your basket is still here.';
       }
     } catch {
+      if (heading) heading.textContent = 'We could not verify your payment.';
       status.textContent = 'Could not verify the test payment. Check Stripe’s sandbox Payments page before retrying.';
     }
-    window.history.replaceState(null, '', window.location.pathname);
+    // Keep the reference on the confirmation page so refresh can reload its summary.
+    if (!summary) window.history.replaceState(null, '', window.location.pathname);
   }
   async function init() {
     const forms = document.querySelectorAll('[data-add-to-cart]');

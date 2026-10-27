@@ -33,6 +33,7 @@ async function build() {
     ['about', 'about/index.html', 'Our story'],
     ['faq', 'faq/index.html', 'A few good questions'],
     ['cart', 'cart/index.html', 'Your basket'],
+    ['confirmation', 'confirmation/index.html', 'Payment confirmation'],
     ['404', '404.html', 'Page not found']
   ];
   for (const [page, destination, title] of pages) {

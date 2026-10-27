@@ -682,6 +682,9 @@ details p {
     max-width: 400px;
     margin: auto;
   }
+  .story-art:hover {
+    zoom: 1.5;
+  }
   .closing {
     padding-top: 45px;
   }
@@ -865,3 +868,17 @@ nav a[href="/"] img {
 @media (prefers-reduced-motion: reduce) {
   .scroll-reveal { opacity: 1; translate: none; transition: none; }
 }
+
+.confirmation-section { max-width: 800px; padding-top: 0; }
+.confirmation-summary { background: var(--sage); padding: clamp(20px, 5vw, 40px); border-radius: 12px; }
+.confirmation-summary[hidden], .confirmation-totals [hidden] { display: none; }
+.confirmation-items { list-style: none; padding: 0; margin: 24px 0; }
+.confirmation-items li { display: flex; justify-content: space-between; gap: 24px; padding: 15px 0; border-bottom: 1px solid #bbc5ad; }
+.confirmation-items small { display: block; color: var(--muted); }
+.confirmation-items strong { white-space: nowrap; }
+.confirmation-totals { margin: 24px 0; }
+.confirmation-totals > div { display: flex; justify-content: space-between; gap: 20px; padding: 7px 0; }
+.confirmation-totals dd { margin: 0; white-space: nowrap; }
+.confirmation-total { font-weight: bold; border-top: 1px solid #bbc5ad; margin-top: 12px; padding-top: 18px !important; }
+.confirmation-reference { font-size: 11px; overflow-wrap: anywhere; }
+.confirmation-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px; margin: 28px 0; }
