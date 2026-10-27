@@ -4,6 +4,7 @@
   const KEY = 'stonebridge-cart-v1';
   let products = [];
   let cart = [];
+  let checkingOut = false;
   const money = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
   const message = text => {
     const toast = document.querySelector('#cart-message');
@@ -81,6 +82,49 @@
       container.append(row);
     });
     document.querySelector('#cart-subtotal').textContent = money(total);
+    const checkout = document.querySelector('#checkout-button');
+    if (checkout) checkout.disabled = !cart.length || checkingOut;
+  }
+  async function setupCheckout() {
+    const button = document.querySelector('#checkout-button');
+    const status = document.querySelector('#checkout-status');
+    if (!button || !status) return;
+    button.addEventListener('click', async () => {
+      if (checkingOut || !cart.length) return;
+      checkingOut = true;
+      button.disabled = true;
+      status.textContent = 'Opening Stripe sandbox checkout…';
+      try {
+        const response = await fetch('/.netlify/functions/create-checkout', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: cart })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Checkout could not start.');
+        if (new URL(result.url).origin !== 'https://checkout.stripe.com') throw new Error('Invalid checkout address.');
+        window.location.assign(result.url);
+      } catch (error) {
+        status.textContent = error.message === 'Failed to fetch' ? 'Checkout could not connect. Please try again.' : error.message;
+        checkingOut = false;
+        render();
+      }
+    });
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('checkout') === 'canceled') status.textContent = 'Test checkout canceled. Your basket is still here.';
+    const id = query.get('session_id');
+    if (!id) return;
+    status.textContent = 'Checking your test payment with Stripe…';
+    try {
+      const response = await fetch('/.netlify/functions/checkout-status?session_id=' + encodeURIComponent(id));
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Could not verify the test payment.');
+      status.textContent = result.paid
+        ? 'Test payment confirmed by Stripe. No real order was placed or will be shipped. Your sample basket is kept for further testing.'
+        : 'Stripe has not confirmed a completed test payment. Your basket is still here.';
+    } catch {
+      status.textContent = 'Could not verify the test payment. Check Stripe’s sandbox Payments page before retrying.';
+    }
+    window.history.replaceState(null, '', window.location.pathname);
   }
   async function init() {
     const forms = document.querySelectorAll('[data-add-to-cart]');
@@ -90,6 +134,7 @@
       if (!response.ok) throw new Error('Catalog unavailable');
       products = await response.json();
       cart = read(); render();
+      setupCheckout();
       forms.forEach(form => {
         form.querySelector('button').disabled = false;
         form.addEventListener('submit', event => {
