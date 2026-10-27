@@ -16,6 +16,7 @@ test('checkout uses authoritative catalog prices and sandbox return URLs', async
   assert.equal(response.statusCode, 200);
   assert.equal(params.get('line_items[0][price_data][unit_amount]'), '800');
   assert.equal(params.get('line_items[0][quantity]'), '2');
+  assert.equal([...params.keys()].some(key => key.startsWith('payment_method_types')), false);
   assert.match(params.get('success_url'), /^https:\/\/stonebridgenutbutters.com\/cart\/\?session_id=/);
 });
 
