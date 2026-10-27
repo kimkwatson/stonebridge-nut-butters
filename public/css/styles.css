@@ -196,7 +196,7 @@ h3 {
 }
 .arch > img {
   width: 100%;
-  transform: rotate(-9deg);
+  transform: rotate(-3deg);
   filter: drop-shadow(0 14px 10px #414c2120);
 }
 .round-stamp {
