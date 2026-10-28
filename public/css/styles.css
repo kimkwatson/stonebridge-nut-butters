@@ -963,3 +963,30 @@ nav a[href="/"] img {
   .tiny-flower img { display: none; }
   .tiny-flower::after { content: "✳"; }
 }
+
+/* Keep the stamp anchored to the photograph, including during hover. */
+.home-hero .hero-art { min-width: 0; }
+.home-hero .hero-photo { position: relative; }
+.home-hero .hero-photo .round-stamp { right: 16px; top: 16px; z-index: 1; }
+
+/* Content media runs edge to edge on phones; copy keeps its reading inset. */
+@media (max-width: 760px) {
+  .home-hero { padding-inline: 0; }
+  .home-hero .hero-copy { padding-inline: 7%; }
+  .home-hero .hero-art { width: 100%; max-width: none; margin: 0; }
+  .home-hero .hero-photo { width: 100%; border-radius: 0; box-shadow: none; overflow: hidden; }
+  .home-hero .hero-photo > img { width: 100%; border-radius: 0; }
+  .home-hero .hero-photo .round-stamp { right: 18px; top: 18px; width: 96px; height: 96px; padding: 12px 6px; font-size: 6px; }
+  .home-hero .hero-photo .round-stamp b { font-size: 16px; }
+  .story-band { padding-inline: 0; }
+  .story-band > div:not(.story-art) { padding-inline: 7%; }
+  .story-band > img, .story-band > .story-art { display: block; width: 100%; max-width: none; margin-inline: 0; }
+  .story-art > img, .story-art > video { display: block; width: 100%; border-radius: 0; }
+  .story-art .making-video { height: auto; max-height: none; }
+  .section .product-grid { width: calc(100% + 12vw); margin-inline: -6vw; }
+  .section .product-grid .card-meta { padding-inline: 6vw; }
+  .product-detail > .jar-scene { width: calc(100% + 12vw); margin-inline: -6vw; }
+  .closing { padding-inline: 0; }
+  .closing > img { width: 100%; max-width: none; margin-inline: 0; }
+  .closing > h2, .closing > .eyebrow { padding-inline: 7%; }
+}
