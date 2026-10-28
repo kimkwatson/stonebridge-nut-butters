@@ -1040,12 +1040,12 @@ nav a[href="/"] img {
 .gingerbread-feature-copy .button { margin: 10px 0; }
 .card-size-label { display: block; margin-top: 15px; font-size: 12px; }
 .card-size-select { display: block; width: 100%; margin-top: 5px; }
-.shop-grid .product-photo-stage > .shop-jar { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
+.shop-grid .product-photo-stage > .shop-jar { transform: scaleX(calc(.82 * var(--photo-fit, 1))) scaleY(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
 @media (prefers-reduced-motion: no-preference) {
   .shop-grid .product-photo-stage > .shop-jar { transition: transform 400ms ease-in-out; }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .shop-grid .product-image:hover .product-photo-stage > .shop-jar { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1) * 1.035)); }
+  .shop-grid .product-image:hover .product-photo-stage > .shop-jar { transform: scaleX(calc(.82 * var(--photo-fit, 1) * 1.035)) scaleY(calc(var(--jar-scale, .82) * var(--photo-fit, 1) * 1.035)); }
 }
 @media (max-width: 760px) {
   .gingerbread-feature { grid-template-columns: 1fr; gap: 20px; }
@@ -1073,13 +1073,13 @@ nav a[href="/"] img {
 .shop-grid .product-card-gingerbread { --photo-fit: .92; }
 
 /* Product-detail photos share the shop image and size-dependent scale. */
-.product-detail-photo > img { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
+.product-detail-photo > img { transform: scaleX(calc(.82 * var(--photo-fit, 1))) scaleY(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
 .product-detail-photo-gingerbread { --photo-fit: .92; }
 @media (prefers-reduced-motion: no-preference) {
   .product-detail-photo > img { transition: transform 400ms ease-in-out; }
 }
 
-.cart-row > .cart-jar-photo { flex-shrink: 0; height: auto; aspect-ratio: 1; transform: scale(var(--cart-jar-scale, .82)); transform-origin: center; }
+.cart-row > .cart-jar-photo { flex-shrink: 0; height: auto; aspect-ratio: 1; transform: scaleX(var(--cart-jar-width, .82)) scaleY(var(--cart-jar-scale, .82)); transform-origin: center 90%; }
 
 /* Mobile stamp fit and balanced spacing around the Gingerbread feature. */
 @media (max-width: 760px) {
@@ -1096,17 +1096,17 @@ nav a[href="/"] img {
 .shop-ingredient-art img { display: block; width: 100%; height: auto; }
 
 /* Tighter introductions without changing the page copy. */
-.page-about .page-intro, .page-shop .page-intro { padding-top: 30px; padding-bottom: 8px; }
-.page-about .page-intro h1, .page-shop .page-intro h1 { margin: 14px 0; }
-.page-about .page-intro > p:last-child { margin-bottom: 8px; }
-.page-about .about-story { padding-top: 20px; padding-bottom: 48px; align-items: start; gap: 36px; }
-.page-shop .page-intro > b { display: block; line-height: 0; }
-.page-shop .page-intro > b img { display: block; width: 96px; height: 96px; margin: 0 auto; }
-.page-shop .shop-section { padding-top: 16px; }
 @media (max-width: 760px) {
   .announcement { white-space: nowrap; font-size: clamp(7.5px, 2.35vw, 11px); letter-spacing: .35px; padding-inline: 8px; }
-  .page-about .page-intro, .page-shop .page-intro { padding-top: 24px; padding-bottom: 4px; }
-  .page-about .about-story { padding-top: 8px; gap: 18px; }
+}
+
+/* Keep jar widths consistent between sizes and settle the feature art lower. */
+.shop-grid .product-photo-stage > .shop-jar, .product-detail-photo > img { transform-origin: center 90%; }
+.gingerbread-feature-art { margin-bottom: 0; translate: -32% 8%; }
+
+/* Shop and Story inherit the same intro spacing and 175px GIF sizing as FAQ/Cart. */
+.page-about .about-story { padding-top: 20px; padding-bottom: 48px; align-items: start; gap: 36px; }
+@media (max-width: 760px) {
+  .page-about .about-story { padding-top: 20px; gap: 18px; }
   .page-about .about-story > img { max-height: 160px; object-fit: contain; }
-  .page-shop .shop-section { padding-top: 10px; }
 }
