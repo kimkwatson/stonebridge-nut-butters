@@ -18,5 +18,14 @@
   });
   const detailSize = document.querySelector('[data-add-to-cart] select[name="size"]');
   const requested = new URLSearchParams(window.location.search).get('size');
-  if (detailSize && [...detailSize.options].some(option => option.value === requested)) detailSize.value = requested;
+  if (detailSize) {
+    const valid = [...detailSize.options].some(option => option.value === requested);
+    detailSize.value = valid ? requested : '4oz';
+    const photo = document.querySelector('[data-detail-photo]');
+    const updateDetail = () => {
+      if (photo) photo.style.setProperty('--jar-scale', detailSize.value === '8oz' ? '1' : '.82');
+    };
+    detailSize.addEventListener('change', updateDetail);
+    updateDetail();
+  }
 })();

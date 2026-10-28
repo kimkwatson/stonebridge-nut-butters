@@ -1,5 +1,5 @@
 <% const usePhoto = typeof photoCards !== 'undefined' && photoCards; %>
-<article class="product-card<%= usePhoto ? ' product-card-photo' : '' %>" <%- usePhoto ? 'data-size-card' : '' %>>
+<article class="product-card<%= usePhoto ? ' product-card-photo' : '' %><%= usePhoto && product.id === 'gingerbread' ? ' product-card-gingerbread' : '' %>" <%- usePhoto ? 'data-size-card' : '' %>>
   <a class="product-image" href="/products/<%= product.slug %>">
     <% if (usePhoto) { %>
       <div class="product-photo-stage"><img src="<%= product.photo %>" alt="<%= product.name %> in its glass jar with a silver lid" width="1536" height="1024" loading="lazy" decoding="async"></div>

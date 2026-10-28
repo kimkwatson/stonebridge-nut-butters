@@ -67,7 +67,7 @@
       const size = product.sizes.find(s => s.id === item.sizeId);
       total += size.price * item.quantity;
       const row = element('article', undefined, 'cart-row');
-      const image = element('img'); image.src = product.photo || '/images/butter.png'; image.alt = product.name + ' jar'; image.width = 90; image.height = 90; image.style.objectFit = 'cover';
+      const image = element('img'); image.src = product.photo || '/images/butter.png'; image.alt = product.name + ', ' + size.label; image.width = 90; image.height = 90; image.style.objectFit = 'cover'; image.className = 'cart-jar-photo'; image.style.setProperty('--cart-jar-scale', String((item.sizeId === '8oz' ? 1 : .82) * (product.id === 'gingerbread' ? .92 : 1)));
       const info = element('div');
       const link = element('a', product.name); link.href = '/products/' + product.slug;
       info.append(link, element('p', size.label + ' · ' + money(size.price) + ' each'));

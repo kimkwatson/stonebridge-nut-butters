@@ -1040,12 +1040,12 @@ nav a[href="/"] img {
 .gingerbread-feature-copy .button { margin: 10px 0; }
 .card-size-label { display: block; margin-top: 15px; font-size: 12px; }
 .card-size-select { display: block; width: 100%; margin-top: 5px; }
-.shop-grid .product-photo-stage img { transform: scale(var(--jar-scale, .82)); }
+.shop-grid .product-photo-stage img { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
 @media (prefers-reduced-motion: no-preference) {
   .shop-grid .product-photo-stage img { transition: transform 400ms ease-in-out; }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .shop-grid .product-image:hover .product-photo-stage img { transform: scale(calc(var(--jar-scale, .82) * 1.035)); }
+  .shop-grid .product-image:hover .product-photo-stage img { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1) * 1.035)); }
 }
 @media (max-width: 760px) {
   .gingerbread-feature { grid-template-columns: 1fr; gap: 20px; }
@@ -1068,3 +1068,15 @@ nav a[href="/"] img {
   25% { transform: rotate(-3deg); }
   65% { transform: rotate(2deg); }
 }
+
+/* Balance the Gingerbread cutout against the other shop photographs. */
+.shop-grid .product-card-gingerbread { --photo-fit: .92; }
+
+/* Product-detail photos share the shop image and size-dependent scale. */
+.product-detail-photo > img { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
+.product-detail-photo-gingerbread { --photo-fit: .92; }
+@media (prefers-reduced-motion: no-preference) {
+  .product-detail-photo > img { transition: transform 400ms ease-in-out; }
+}
+
+.cart-row > .cart-jar-photo { flex-shrink: 0; height: auto; aspect-ratio: 1; transform: scale(var(--cart-jar-scale, .82)); transform-origin: center; }
