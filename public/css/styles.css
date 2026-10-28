@@ -992,9 +992,9 @@ nav a[href="/"] img {
 }
 
 /* Sage hero backdrop with a soft photographic shadow. */
-.home-hero .hero-photo { background: var(--sage); box-shadow: 0 12px 28px #283e3026; }
-.home-hero .hero-art { background: var(--sage); padding: 12px; }
+.home-hero .hero-photo { background: transparent; box-shadow: none; }
+.home-hero .hero-art { background: var(--sage); padding: 12px; box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18), 0 3px 8px rgba(0, 0, 0, 0.08); }
 @media (max-width: 760px) {
   .home-hero .hero-art { padding: 12px 0; }
-  .home-hero .hero-photo { box-shadow: 0 10px 24px #283e3026; }
+  .home-hero .hero-photo { box-shadow: none; }
 }
