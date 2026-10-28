@@ -2,7 +2,7 @@
 <article class="product-card<%= usePhoto ? ' product-card-photo' : '' %><%= usePhoto && product.id === 'gingerbread' ? ' product-card-gingerbread' : '' %>" <%- usePhoto ? 'data-size-card' : '' %>>
   <a class="product-image" href="/products/<%= product.slug %>">
     <% if (usePhoto) { %>
-      <div class="product-photo-stage"><img src="<%= product.photo %>" alt="<%= product.name %> in its glass jar with a silver lid" width="1536" height="1024" loading="lazy" decoding="async"></div>
+      <div class="product-photo-stage"><img class="shop-jar" src="<%= product.photo %>" alt="<%= product.name %> in its glass jar with a silver lid" width="1536" height="1024" loading="lazy" decoding="async"><% if (product.ingredientArt) { %><span class="shop-ingredient-art" aria-hidden="true"><img src="<%= product.ingredientArt %>" width="1536" height="1024" alt="" loading="lazy" decoding="async"></span><% } %></div>
     <% } else { %>
       <%- include('jar', {product}) %>
     <% } %>

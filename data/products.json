@@ -21,7 +21,8 @@
         "price": 1000
       }
     ],
-    "photo": "/images/product-classic-cutout-v1.png"
+    "photo": "/images/product-classic-cutout-v1.png",
+    "ingredientArt": "/images/ingredient-art-classic-v1.png"
   },
   {
     "id": "pistachio-chocolate",
@@ -45,7 +46,8 @@
         "price": 1500
       }
     ],
-    "photo": "/images/product-pistachio-chocolate-cutout-v1.png"
+    "photo": "/images/product-pistachio-chocolate-cutout-v1.png",
+    "ingredientArt": "/images/ingredient-art-pistachio-chocolate-v1.png"
   },
   {
     "id": "coconut-vanilla",
@@ -69,7 +71,8 @@
         "price": 1700
       }
     ],
-    "photo": "/images/product-coconut-vanilla-cutout-v1.png"
+    "photo": "/images/product-coconut-vanilla-cutout-v1.png",
+    "ingredientArt": "/images/ingredient-art-coconut-vanilla-v1.png"
   },
   {
     "id": "gingerbread",
@@ -94,6 +97,7 @@
       }
     ],
     "photo": "/images/product-gingerbread-cutout-v1.png",
-    "imageEdited": true
+    "imageEdited": true,
+    "ingredientArt": "/images/gingerbread-spice-art-v1.png"
   }
 ]

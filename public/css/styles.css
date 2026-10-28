@@ -1016,12 +1016,12 @@ nav a[href="/"] img {
 .shop-grid .product-card-photo { background: #fff; }
 .shop-grid .product-card-photo .product-image { background: #fff; overflow: hidden; }
 .shop-grid .product-photo-stage { aspect-ratio: 1; background: #fff; overflow: hidden; }
-.shop-grid .product-photo-stage img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.shop-grid .product-photo-stage > .shop-jar { display: block; width: 100%; height: 100%; object-fit: cover; }
 .shop-grid .product-card-photo .card-meta { padding: 20px 24px 26px; }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .shop-grid .product-card-photo .product-image:hover { transform: none; }
-  .shop-grid .product-photo-stage img { transition: transform 400ms ease; }
-  .shop-grid .product-image:hover .product-photo-stage img { transform: scale(1.035); }
+  .shop-grid .product-photo-stage > .shop-jar { transition: transform 400ms ease; }
+  .shop-grid .product-image:hover .product-photo-stage > .shop-jar { transform: scale(1.035); }
 }
 @media (max-width: 760px) {
   .section .shop-grid .product-card-photo .card-meta { padding: 16px 14px 22px; }
@@ -1040,12 +1040,12 @@ nav a[href="/"] img {
 .gingerbread-feature-copy .button { margin: 10px 0; }
 .card-size-label { display: block; margin-top: 15px; font-size: 12px; }
 .card-size-select { display: block; width: 100%; margin-top: 5px; }
-.shop-grid .product-photo-stage img { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
+.shop-grid .product-photo-stage > .shop-jar { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
 @media (prefers-reduced-motion: no-preference) {
-  .shop-grid .product-photo-stage img { transition: transform 400ms ease-in-out; }
+  .shop-grid .product-photo-stage > .shop-jar { transition: transform 400ms ease-in-out; }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .shop-grid .product-image:hover .product-photo-stage img { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1) * 1.035)); }
+  .shop-grid .product-image:hover .product-photo-stage > .shop-jar { transform: scale(calc(var(--jar-scale, .82) * var(--photo-fit, 1) * 1.035)); }
 }
 @media (max-width: 760px) {
   .gingerbread-feature { grid-template-columns: 1fr; gap: 20px; }
@@ -1086,4 +1086,27 @@ nav a[href="/"] img {
   .home-hero .hero-photo .round-stamp { font-size: 5.5px; letter-spacing: .6px; line-height: 1.4; padding: 14px 7px; }
   .home-hero .hero-photo .round-stamp b { font-size: 13px; line-height: 1.05; margin: 3px 0; }
   .gingerbread-feature-media .gingerbread-feature-art { width: 75%; justify-self: start; margin-right: 25%; }
+}
+
+/* Closely paired photographic jars and matching ingredient artwork. */
+.gingerbread-feature-art { translate: -32% 0; }
+.shop-grid .product-photo-stage { position: relative; }
+.shop-grid .product-photo-stage > .shop-jar { position: absolute; left: -12%; bottom: 0; width: 94%; height: 100%; object-fit: contain; }
+.shop-ingredient-art { position: absolute; left: 58%; bottom: 16%; width: 40%; pointer-events: none; }
+.shop-ingredient-art img { display: block; width: 100%; height: auto; }
+
+/* Tighter introductions without changing the page copy. */
+.page-about .page-intro, .page-shop .page-intro { padding-top: 30px; padding-bottom: 8px; }
+.page-about .page-intro h1, .page-shop .page-intro h1 { margin: 14px 0; }
+.page-about .page-intro > p:last-child { margin-bottom: 8px; }
+.page-about .about-story { padding-top: 20px; padding-bottom: 48px; align-items: start; gap: 36px; }
+.page-shop .page-intro > b { display: block; line-height: 0; }
+.page-shop .page-intro > b img { display: block; width: 96px; height: 96px; margin: 0 auto; }
+.page-shop .shop-section { padding-top: 16px; }
+@media (max-width: 760px) {
+  .announcement { white-space: nowrap; font-size: clamp(7.5px, 2.35vw, 11px); letter-spacing: .35px; padding-inline: 8px; }
+  .page-about .page-intro, .page-shop .page-intro { padding-top: 24px; padding-bottom: 4px; }
+  .page-about .about-story { padding-top: 8px; gap: 18px; }
+  .page-about .about-story > img { max-height: 160px; object-fit: contain; }
+  .page-shop .shop-section { padding-top: 10px; }
 }
