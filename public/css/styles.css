@@ -990,3 +990,11 @@ nav a[href="/"] img {
   .closing > img { width: 100%; max-width: none; margin-inline: 0; }
   .closing > h2, .closing > .eyebrow { padding-inline: 7%; }
 }
+
+/* Sage hero backdrop with a soft photographic shadow. */
+.home-hero .hero-photo { background: var(--sage); box-shadow: 0 12px 28px #283e3026; }
+.home-hero .hero-art { background: var(--sage); padding: 12px; }
+@media (max-width: 760px) {
+  .home-hero .hero-art { padding: 12px 0; }
+  .home-hero .hero-photo { box-shadow: 0 10px 24px #283e3026; }
+}
