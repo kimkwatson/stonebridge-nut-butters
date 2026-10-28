@@ -998,3 +998,16 @@ nav a[href="/"] img {
   .home-hero .hero-art { padding: 12px 0; }
   .home-hero .hero-photo { box-shadow: none; }
 }
+
+/* BEGIN HERO CUTOUT EXPERIMENT — remove this block to restore prior styling. */
+.home-hero .hero-art.hero-art-cutout { padding: 0; background: transparent; box-shadow: none; }
+.home-hero .hero-cutout-scene { position: relative; aspect-ratio: 1.05; background: var(--sage); border-radius: 48% 48% 3px 3px; box-shadow: 0 14px 28px #283e301c; overflow: visible; }
+.home-hero .hero-cutout-scene > .hero-cutout { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; object-position: center bottom; border-radius: 0; filter: drop-shadow(0 9px 8px #283e3020); }
+.home-hero .hero-cutout-scene .round-stamp { top: 6%; right: 7%; z-index: 3; }
+@media (max-width: 760px) {
+  .home-hero .hero-art.hero-art-cutout { padding: 0; }
+  .home-hero .hero-cutout-scene { border-radius: 48% 48% 0 0; overflow: hidden; }
+  .home-hero .hero-cutout-scene > .hero-cutout { width: 100%; height: 100%; }
+  .home-hero .hero-cutout-scene .round-stamp { top: 7%; right: 7%; }
+}
+/* END HERO CUTOUT EXPERIMENT */
