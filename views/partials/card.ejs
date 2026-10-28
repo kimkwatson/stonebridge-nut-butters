@@ -1,5 +1,5 @@
 <% const usePhoto = typeof photoCards !== 'undefined' && photoCards; %>
-<article class="product-card<%= usePhoto ? ' product-card-photo' : '' %>">
+<article class="product-card<%= usePhoto ? ' product-card-photo' : '' %>" <%- usePhoto ? 'data-size-card' : '' %>>
   <a class="product-image" href="/products/<%= product.slug %>">
     <% if (usePhoto) { %>
       <div class="product-photo-stage"><img src="<%= product.photo %>" alt="<%= product.name %> in its glass jar with a silver lid" width="1536" height="1024" loading="lazy" decoding="async"></div>
@@ -14,10 +14,16 @@
     <h3>
       <a href="/products/<%= product.slug %>"><%= product.name %></a>
     </h3>
-    <p>
-      From <%= money(product.sizes[0].price) %> <span>/ <%= product.sizes[0].label %></span>
-    </p>
-    <a class="text-link" href="/products/<%= product.slug %>">
+    <% if (usePhoto) { %>
+      <label class="card-size-label" for="card-size-<%= product.id %>">Jar size</label>
+      <select id="card-size-<%= product.id %>" class="card-size-select" data-card-size-select>
+        <% product.sizes.forEach(size => { %><option value="<%= size.id %>" data-price="<%= size.price %>" data-label="<%= size.label %>"><%= size.label %> — <%= money(size.price) %></option><% }) %>
+      </select>
+      <p aria-live="polite"><strong data-card-price><%= money(product.sizes[0].price) %></strong> <span data-card-size-label>/ <%= product.sizes[0].label %></span></p>
+    <% } else { %>
+      <p>From <%= money(product.sizes[0].price) %> <span>/ <%= product.sizes[0].label %></span></p>
+    <% } %>
+    <a class="text-link" data-card-order-link href="/products/<%= product.slug %>?size=<%= product.sizes[0].id %>">
       Choose your jar <span aria-hidden="true">↗</span>
     </a>
   </div>

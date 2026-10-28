@@ -28,6 +28,18 @@
       revealTargets.forEach(element => { if (element.matches(':target') || element.querySelector(':target')) reveal(element); });
     });
   }
+  const gingerbread = document.querySelector('.gingerbread-feature');
+  if (gingerbread && 'IntersectionObserver' in window && !reduced.matches) {
+    const featureObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          gingerbread.classList.add('spice-motion-ready');
+          featureObserver.unobserve(gingerbread);
+        }
+      });
+    }, { threshold: 0.15 });
+    featureObserver.observe(gingerbread);
+  }
   const videos = [...document.querySelectorAll('video[data-visible-loop]')];
   const visible = new Set();
   function updateVideo(video) {

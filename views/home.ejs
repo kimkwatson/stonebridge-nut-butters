@@ -41,20 +41,19 @@
   <span>Made to be shared</span>
 </div>
 
-<section class="section">
-  <div class="section-heading">
-    <div>
-      <p class="eyebrow">MEET YOUR NEW PANTRY FAVORITES</p>
-      <h2>Introducing Gingerbread Cashew Peanut Butter</h2>
-      <b><img src="/images/product-gingerbread-cutout-v1.png" alt="" width="200" height="200"></b>
-    </div>
-    <a class="text-link" href="/shop">Shop all flavors ↗</a>
+<section class="section gingerbread-feature" aria-labelledby="gingerbread-title">
+  <% const gingerbread = products.find(product => product.id === 'gingerbread'); %>
+  <div class="gingerbread-feature-media">
+    <img class="gingerbread-feature-jar" src="<%= gingerbread.photo %>" width="1536" height="1024" loading="lazy" decoding="async" alt="Color-edited image of Gingerbread Peanut Butter in its glass jar">
+    <img class="gingerbread-feature-art" src="/images/gingerbread-spice-art-v1.png" width="1536" height="1024" loading="lazy" decoding="async" alt="" aria-hidden="true">
   </div>
-
-  <div class="product-grid">
-    <% products.filter(p => p.featured).forEach(product => { %>
-      <%- include('partials/card', {product}) %>
-    <% }) %>
+  <div class="gingerbread-feature-copy">
+    <p class="eyebrow">NEW FLAVOR · A COZY, SPICED SPOONFUL</p>
+    <h2 id="gingerbread-title">Introducing Gingerbread<br>Cashew Peanut Butter.</h2>
+    <p>Peanuts and cashews meet molasses, cinnamon, cloves, and ginger. A warm, spiced spoonful for toast, gifting, or enjoying straight from the jar.</p>
+    <p><strong><%= money(gingerbread.sizes[0].price) %></strong> / 4 oz · <strong><%= money(gingerbread.sizes[1].price) %></strong> / 8 oz</p>
+    <a class="button" href="/products/<%= gingerbread.slug %>">Order it now <span aria-hidden="true">↗</span></a>
+    <p class="sample-label">Contains peanuts and cashews. Product image is color-edited.</p>
   </div>
 </section>
 
