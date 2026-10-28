@@ -1,10 +1,16 @@
-<article class="product-card">
+<% const usePhoto = typeof photoCards !== 'undefined' && photoCards; %>
+<article class="product-card<%= usePhoto ? ' product-card-photo' : '' %>">
   <a class="product-image" href="/products/<%= product.slug %>">
-    <%- include('jar', {product}) %>
+    <% if (usePhoto) { %>
+      <div class="product-photo-stage"><img src="<%= product.photo %>" alt="<%= product.name %> in its glass jar with a silver lid" width="1536" height="1024" loading="lazy" decoding="async"></div>
+    <% } else { %>
+      <%- include('jar', {product}) %>
+    <% } %>
   </a>
 
   <div class="card-meta">
     <p class="eyebrow"><%= product.tag %></p>
+    <% if (product.imageEdited) { %><p class="sample-label">Color-edited product image.</p><% } %>
     <h3>
       <a href="/products/<%= product.slug %>"><%= product.name %></a>
     </h3>

@@ -9,7 +9,7 @@
 <section class="section shop-section">
   <div class="product-grid shop-grid">
     <% products.forEach(product => { %>
-      <%- include('partials/card', {product}) %>
+      <%- include('partials/card', {product, photoCards: true}) %>
     <% }) %>
   </div>
 </section>

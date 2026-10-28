@@ -89,11 +89,11 @@ test('line-item failures cannot produce a false confirmation summary', async () 
   assert.equal(response.statusCode, 502);
 });
 
-test('all six approved jar prices come from the catalog', () => {
+test('all eight approved jar prices come from the catalog', () => {
   const catalog = require('./data/products.json');
-  assert.equal(catalog.length, 3);
+  assert.equal(catalog.length, 4);
   assert.deepEqual(catalog.map(p => p.sizes.map(s => [s.id, s.price])), [
-    [['4oz', 600], ['8oz', 1000]], [['4oz', 900], ['8oz', 1500]], [['4oz', 1000], ['8oz', 1700]]
+    [['4oz', 600], ['8oz', 1000]], [['4oz', 900], ['8oz', 1500]], [['4oz', 1000], ['8oz', 1700]], [['4oz', 1000], ['8oz', 1700]]
   ]);
 });
 test('Arizona shipping is fixed at 795 cents and pickup at zero regardless of submitted fee', async () => {
@@ -164,4 +164,17 @@ test('live confirmation is verified with Stripe and distinguished from sandbox',
   const response=await handler({httpMethod:'GET',queryStringParameters:{session_id:'cs_live_example'}});
   const summary=JSON.parse(response.body);
   assert.equal(summary.paid,true); assert.equal(summary.sandbox,false); assert.equal(summary.total,1000); assert.equal(summary.fulfillment,'pickup');
+});
+
+test('gingerbread checkout uses approved prices and product name', async () => {
+  let params;
+  const handler=createHandler('create',env,async(url,options)=>{
+    params=new URLSearchParams(options.body);
+    return {ok:true,json:async()=>({id:'cs_test_gingerbread',livemode:false,url:'https://checkout.stripe.com/c/pay/cs_test_gingerbread'})};
+  });
+  const response=await handler(event([{productId:'gingerbread',sizeId:'4oz',quantity:1},{productId:'gingerbread',sizeId:'8oz',quantity:2}]));
+  assert.equal(response.statusCode,200);
+  assert.equal(params.get('line_items[0][price_data][unit_amount]'),'1000');
+  assert.equal(params.get('line_items[1][price_data][unit_amount]'),'1700');
+  assert.match(params.get('line_items[0][price_data][product_data][name]'),/Gingerbread Peanut Butter/);
 });

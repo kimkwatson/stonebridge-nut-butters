@@ -1002,12 +1002,30 @@ nav a[href="/"] img {
 /* BEGIN HERO CUTOUT EXPERIMENT — remove this block to restore prior styling. */
 .home-hero .hero-art.hero-art-cutout { padding: 0; background: transparent; box-shadow: none; }
 .home-hero .hero-cutout-scene { position: relative; aspect-ratio: 1.05; background: var(--sage); border-radius: 48% 48% 3px 3px; box-shadow: 0 14px 28px #283e301c; overflow: visible; }
-.home-hero .hero-cutout-scene > .hero-cutout { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; object-position: center bottom; border-radius: 0; filter: drop-shadow(0 9px 8px #283e3020); }
+.home-hero .hero-cutout-scene > .hero-cutout { position: absolute; top: 0; bottom: 0; left: -8%; right: auto; width: 112%; height: 100%; aspect-ratio: auto; object-fit: contain; object-position: center bottom; border-radius: 0; filter: drop-shadow(0 9px 8px #283e3020); }
 .home-hero .hero-cutout-scene .round-stamp { top: 6%; right: 7%; z-index: 3; }
 @media (max-width: 760px) {
-  .home-hero .hero-art.hero-art-cutout { padding: 0; }
-  .home-hero .hero-cutout-scene { border-radius: 48% 48% 0 0; overflow: hidden; }
-  .home-hero .hero-cutout-scene > .hero-cutout { width: 100%; height: 100%; }
+  .home-hero .hero-art.hero-art-cutout { padding: 0 0 0 6%; overflow-x: clip; overflow-y: visible; }
+  .home-hero .hero-cutout-scene { border-radius: 48% 48% 0 0; overflow: visible; }
+  .home-hero .hero-cutout-scene > .hero-cutout { width: 112%; height: 100%; }
   .home-hero .hero-cutout-scene .round-stamp { top: 7%; right: 7%; }
 }
 /* END HERO CUTOUT EXPERIMENT */
+
+/* Actual product photographs on clean white shop cards. */
+.shop-grid .product-card-photo { background: #fff; }
+.shop-grid .product-card-photo .product-image { background: #fff; overflow: hidden; }
+.shop-grid .product-photo-stage { aspect-ratio: 1; background: #fff; overflow: hidden; }
+.shop-grid .product-photo-stage img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.shop-grid .product-card-photo .card-meta { padding: 20px 24px 26px; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .shop-grid .product-card-photo .product-image:hover { transform: none; }
+  .shop-grid .product-photo-stage img { transition: transform 400ms ease; }
+  .shop-grid .product-image:hover .product-photo-stage img { transform: scale(1.035); }
+}
+@media (max-width: 760px) {
+  .section .shop-grid .product-card-photo .card-meta { padding: 16px 14px 22px; }
+}
+
+.product-detail-photo { width: 100%; aspect-ratio: 1; overflow: hidden; background: #fff; }
+.product-detail-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }

@@ -4,7 +4,11 @@
   <a class="text-link" href="/shop">← Back to the pantry</a>
 
   <div class="product-detail">
-    <%- include('partials/jar', {product}) %>
+    <% if (product.imageEdited) { %>
+      <div class="product-photo-stage product-detail-photo"><img src="<%= product.photo %>" alt="Color-edited image of Gingerbread Peanut Butter in a glass jar with a silver lid" width="1536" height="1024"></div>
+    <% } else { %>
+      <%- include('partials/jar', {product}) %>
+    <% } %>
 
     <div>
       <p class="eyebrow"><%= product.tag %></p>
@@ -43,7 +47,7 @@
         </p>
       </details>
 
-      <p class="sample-label">Illustrated product image.</p>
+      <p class="sample-label"><%= product.imageEdited ? 'Color-edited product image based on our jar photography.' : 'Illustrated product image.' %></p>
     </div>
   </div>
 </section>

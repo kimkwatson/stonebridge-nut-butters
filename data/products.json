@@ -20,7 +20,8 @@
         "label": "8 oz jar",
         "price": 1000
       }
-    ]
+    ],
+    "photo": "/images/product-classic-cutout-v1.png"
   },
   {
     "id": "pistachio-chocolate",
@@ -43,7 +44,8 @@
         "label": "8 oz jar",
         "price": 1500
       }
-    ]
+    ],
+    "photo": "/images/product-pistachio-chocolate-cutout-v1.png"
   },
   {
     "id": "coconut-vanilla",
@@ -66,6 +68,32 @@
         "label": "8 oz jar",
         "price": 1700
       }
-    ]
+    ],
+    "photo": "/images/product-coconut-vanilla-cutout-v1.png"
+  },
+  {
+    "id": "gingerbread",
+    "slug": "gingerbread-peanut-butter",
+    "name": "Gingerbread Peanut Butter",
+    "tag": "A cozy, spiced spoonful",
+    "description": "Peanuts and cashews blended with molasses, cinnamon, cloves, and ginger for a warm gingerbread-inspired spread.",
+    "ingredients": "Peanuts, cashews, molasses, cinnamon, cloves, ginger.",
+    "allergens": "Peanuts, cashews",
+    "color": "gold",
+    "featured": false,
+    "sizes": [
+      {
+        "id": "4oz",
+        "label": "4 oz jar",
+        "price": 1000
+      },
+      {
+        "id": "8oz",
+        "label": "8 oz jar",
+        "price": 1700
+      }
+    ],
+    "photo": "/images/product-gingerbread-cutout-v1.png",
+    "imageEdited": true
   }
 ]
