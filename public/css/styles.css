@@ -1080,3 +1080,10 @@ nav a[href="/"] img {
 }
 
 .cart-row > .cart-jar-photo { flex-shrink: 0; height: auto; aspect-ratio: 1; transform: scale(var(--cart-jar-scale, .82)); transform-origin: center; }
+
+/* Mobile stamp fit and balanced spacing around the Gingerbread feature. */
+@media (max-width: 760px) {
+  .home-hero .hero-photo .round-stamp { font-size: 5.5px; letter-spacing: .6px; line-height: 1.4; padding: 14px 7px; }
+  .home-hero .hero-photo .round-stamp b { font-size: 13px; line-height: 1.05; margin: 3px 0; }
+  .gingerbread-feature-media .gingerbread-feature-art { width: 75%; justify-self: start; margin-right: 25%; }
+}
