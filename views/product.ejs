@@ -13,6 +13,8 @@
       <h1><%= product.name %></h1>
       <p><%= product.description %></p>
 
+      <p class="production-date"><strong>Estimated production date:</strong> <time data-production-date>Next Wednesday</time><br><small>Made fresh every Wednesday.</small></p>
+
       <form data-add-to-cart data-product-id="<%= product.id %>">
         <label for="size">Choose a size</label>
         <select id="size" name="size">
@@ -38,18 +40,18 @@
 
       <details open>
         <summary>Ingredients & allergens</summary>
-        <p><%= product.ingredients %></p>
+        <p><strong>Ingredients: </strong><%= product.ingredients %></p>
         <p>
-          Contains: <%= product.allergens %>. These are sample details; final recipes and
-          cross-contact information must be confirmed before ordering.
+          <strong>Contains: </strong><%= product.allergens %>
         </p>
-        <p><strong>This product was produced in a home kitchen that may come in contact with common food allergens and pet allergens and is not subject to public health inspection.</strong></p>
-        <p><strong>To obtain additional information about cottage foods or to report a food-borne illness, go to azdhs.gov/Cottagefood.</strong></p>
       </details>
 
       <p class="sample-label"><%= product.imageEdited ? 'Color-edited product image based on our jar photography.' : 'Our product photography with the background removed.' %></p>
+      <p><strong>This product was produced in a home kitchen that may come in contact with common food allergens and pet allergens and is not subject to public health inspection.</strong></p>
+      <p><strong>To obtain additional information about cottage foods or to report a food-borne illness, go to azdhs.gov/Cottagefood.</strong></p>
     </div>
   </div>
 </section>
 
+<script src="/js/production-date.js" defer></script>
 <%- include('partials/footer') %>
