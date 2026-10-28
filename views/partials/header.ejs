@@ -10,6 +10,7 @@
     <% if (page === 'confirmation') { %><meta name="robots" content="noindex, nofollow"><meta name="referrer" content="no-referrer"><% } %>
     <title><%= title %> | Stonebridge Nut Butters</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/navigation.js" defer></script>
     <script src="/js/motion.js" defer></script>
     <script src="/js/cart-state.js" defer></script>
     <script src="/js/cart.js" defer></script>
@@ -26,18 +27,26 @@
         </span>
       </a>
 
-      <nav aria-label="Main navigation">
-        <a class="nav-icon-link" href="/" aria-label="Home" <%- page === 'home' ? 'aria-current="page"' : '' %>><img src="/images/home-icon.png" alt=""><span class="nav-label" aria-hidden="true">Home</span></a>
-        <a class="nav-icon-link" href="/shop" aria-label="Shop" <%- page === 'shop' ? 'aria-current="page"' : '' %>><img src="/images/shop-icon.png" alt=""><span class="nav-label" aria-hidden="true">Shop</span></a>
-        <a class="nav-icon-link" href="/about" aria-label="About" <%- page === 'about' ? 'aria-current="page"' : '' %>><img src="/images/about-icon.png" alt=""><span class="nav-label" aria-hidden="true">About</span></a>
-        <a class="nav-icon-link" href="/faq" aria-label="FAQ" <%- page === 'faq' ? 'aria-current="page"' : '' %>><img src="/images/faq-icon.png" alt=""><span class="nav-label" aria-hidden="true">FAQ</span></a>
-      </nav>
-
-      <a class="basket-link nav-icon-link" href="/cart" aria-label="Shopping cart">
-        <img src="/images/cart-icon.png" alt="" width="44" height="44">
+      <div class="nav-panel" id="navigation-panel">
+        <nav aria-label="Main navigation">
+          <div class="nav-links">
+            <a class="nav-icon-link" href="/" aria-label="Home" <%- page === 'home' ? 'aria-current="page"' : '' %>><%- include('nav-icon', { icon: 'home' }) %><span class="nav-label" aria-hidden="true">Home</span></a>
+            <a class="nav-icon-link" href="/shop" aria-label="Shop" <%- page === 'shop' ? 'aria-current="page"' : '' %>><%- include('nav-icon', { icon: 'shop' }) %><span class="nav-label" aria-hidden="true">Shop</span></a>
+            <a class="nav-icon-link" href="/about" aria-label="Our story" <%- page === 'about' ? 'aria-current="page"' : '' %>><%- include('nav-icon', { icon: 'about' }) %><span class="nav-label" aria-hidden="true">Our story</span></a>
+            <a class="nav-icon-link" href="/faq" aria-label="FAQ" <%- page === 'faq' ? 'aria-current="page"' : '' %>><%- include('nav-icon', { icon: 'faq' }) %><span class="nav-label" aria-hidden="true">FAQ</span></a>
+          </div>
+        </nav>
+      </div>
+      <a class="basket-link nav-icon-link" href="/cart" aria-label="Shopping cart" <%- page === 'cart' ? 'aria-current="page"' : '' %>>
+        <%- include('nav-icon', { icon: 'cart' }) %>
         <span class="nav-label" aria-hidden="true">Cart</span>
         <span data-cart-count class="count">0</span>
       </a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="navigation-panel" aria-expanded="false" hidden>
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path class="menu-top" d="M4 6h16"/><path class="menu-middle" d="M4 12h16"/><path class="menu-bottom" d="M4 18h16"/>
+        </svg>
+      </button>
     </header>
 
     <main id="main">
