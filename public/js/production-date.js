@@ -8,8 +8,8 @@
     }).formatToParts(new Date());
     const part = type => Number(parts.find(value => value.type === type).value);
     const date = new Date(Date.UTC(part('year'), part('month') - 1, part('day')));
-    // Wednesday orders are included in the current Wednesday's batch.
-    date.setUTCDate(date.getUTCDate() + (3 - date.getUTCDay() + 7) % 7);
+    // Wednesday orders join the following week's batch.
+    date.setUTCDate(date.getUTCDate() + ((3 - date.getUTCDay() + 7) % 7 || 7));
     const label = new Intl.DateTimeFormat('en-US', {
       timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
     }).format(date);
