@@ -1,6 +1,6 @@
 :root {
   --ink: #283e30;
-  --cream: #fcfaf4;
+  --cream: #e5e0dc; /* Cool, light taupe used for the site background. */
   --sage: #e4e9dc;
   --berry: #753e4c;
   --line: #d8dacd;
@@ -924,9 +924,15 @@ nav a[href="/"] img {
   .site-header .nav-icon-link:hover .nav-label, .site-header .nav-icon-link:focus-visible .nav-label { transform: none; }
   .site-header.nav-enhanced .menu-toggle { grid-column: 3; grid-row: 1; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 8px; color: #283e30; border: 0; background: transparent; cursor: pointer; }
   .site-header .menu-toggle:hover, .site-header .menu-toggle:focus-visible { color: #C3942F; }
-  .site-header.nav-enhanced .nav-panel { display: grid; grid-template-rows: 0fr; }
-  .site-header.nav-enhanced .nav-panel > nav { overflow: hidden; visibility: hidden; opacity: 0; }
-  .site-header.nav-enhanced.menu-open .nav-panel { grid-template-rows: 1fr; }
+  .site-header.nav-enhanced .nav-panel {
+    position: absolute; right: 6%; top: calc(50% + 22px); z-index: 20;
+    display: block; width: min(280px, 88vw); margin: 0; padding: 12px 18px;
+    background: var(--cream); border-radius: 14px; box-shadow: 0 10px 32px #283e3026;
+    overflow: hidden; clip-path: inset(0 0 0 100% round 14px);
+    visibility: hidden; pointer-events: none;
+  }
+  .site-header.nav-enhanced .nav-panel > nav { overflow: visible; visibility: inherit; opacity: 1; }
+  .site-header.nav-enhanced.menu-open .nav-panel { clip-path: inset(0 0 0 0 round 14px); visibility: visible; pointer-events: auto; }
   .site-header.nav-enhanced.menu-open .nav-panel > nav { visibility: visible; opacity: 1; }
   .site-header .menu-toggle path { transform-origin: center; }
   .site-header.menu-open .menu-top { transform: rotate(45deg) translateY(6px); }
@@ -934,8 +940,21 @@ nav a[href="/"] img {
   .site-header.menu-open .menu-bottom { transform: rotate(-45deg) translateY(-6px); }
 }
 @media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
-  .site-header.nav-enhanced .nav-panel { transition: grid-template-rows 320ms ease-in-out; }
-  .site-header.nav-enhanced .nav-panel > nav { transition: opacity 240ms ease-in-out, visibility 0s 320ms; }
-  .site-header.nav-enhanced.menu-open .nav-panel > nav { transition: opacity 240ms ease-in-out, visibility 0s; }
+  .site-header.nav-enhanced .nav-panel { transition: clip-path 320ms ease-in-out, visibility 0s 320ms; }
+  .site-header.nav-enhanced .nav-panel > nav { transition: none; }
+  .site-header.nav-enhanced.menu-open .nav-panel { transition: clip-path 520ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s; }
   .site-header .menu-toggle path { transition: transform 320ms ease-in-out, opacity 180ms ease-in-out; }
+  .site-header.menu-open .menu-toggle path { transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms ease-out; }
+}
+
+/* Keep the cart label below its icon and show it only on hover/focus. */
+.site-header .basket-link { display: inline-grid; grid-template-columns: auto auto; align-items: center; justify-content: center; column-gap: 6px; }
+.site-header .basket-link > .nav-icon { grid-column: 1; grid-row: 1; }
+.site-header .basket-link > .count { grid-column: 2; grid-row: 1; display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 26px; padding: 0 5px; border-radius: 50%; background: var(--sage); color: var(--ink); font-size: 13px; font-weight: 600; line-height: 1; }
+.site-header .basket-link > .nav-label { display: block; position: absolute; top: 100%; left: 16px; width: max-content; opacity: 0; transform: translate(-50%, -4px); pointer-events: none; font-size: 12px; line-height: 24px; }
+.site-header .basket-link:hover > .nav-label, .site-header .basket-link:focus-visible > .nav-label { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 760px) {
+  .site-header .basket-link { column-gap: 4px; padding: 8px 0; }
+  .site-header .basket-link > .nav-label { left: 14px; }
+  .site-header .basket-link > .count { min-width: 25px; height: 25px; font-size: 13px; }
 }
