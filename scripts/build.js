@@ -28,7 +28,7 @@ async function build() {
   await fs.mkdir(output, { recursive: true });
   await fs.cp(path.join(root, 'public'), output, { recursive: true });
   const pages = [
-    ['home', 'index.html', 'A little goodness, in every jar'],
+    ['home', 'index.html', 'A little goodness in every jar'],
     ['shop', 'shop/index.html', 'The nut butter pantry'],
     ['about', 'about/index.html', 'Our story'],
     ['faq', 'faq/index.html', 'A few good questions'],
