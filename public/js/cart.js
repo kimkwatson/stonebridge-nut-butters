@@ -67,7 +67,7 @@
       const size = product.sizes.find(s => s.id === item.sizeId);
       total += size.price * item.quantity;
       const row = element('article', undefined, 'cart-row');
-      const image = element('img'); image.src = '/images/butter.png'; image.alt = ''; image.width = 90;
+      const image = element('img'); image.src = product.photo || '/images/butter.png'; image.alt = product.name + ' jar'; image.width = 90; image.height = 90; image.style.objectFit = 'cover';
       const info = element('div');
       const link = element('a', product.name); link.href = '/products/' + product.slug;
       info.append(link, element('p', size.label + ' · ' + money(size.price) + ' each'));
