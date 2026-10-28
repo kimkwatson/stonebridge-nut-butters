@@ -925,7 +925,7 @@ nav a[href="/"] img {
   .site-header.nav-enhanced .menu-toggle { grid-column: 3; grid-row: 1; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 8px; color: #283e30; border: 0; background: transparent; cursor: pointer; }
   .site-header .menu-toggle:hover, .site-header .menu-toggle:focus-visible { color: #C3942F; }
   .site-header.nav-enhanced .nav-panel {
-    position: absolute; right: 6%; top: calc(100% + 8px); z-index: 20;
+    position: absolute; right: 8px; top: calc(100% + 8px); z-index: 20;
     display: block; width: min(280px, 88vw); margin: 0; padding: 12px 18px;
     background: var(--cream); border-radius: 14px; box-shadow: 0 10px 32px #283e3026;
     overflow: hidden; transform: translateY(-14px); opacity: 0;
