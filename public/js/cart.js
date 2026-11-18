@@ -179,6 +179,7 @@
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Could not verify the payment.');
       if (result.paid) {
+        window.StonebridgePurchase?.track(result);
         const sandbox = result.sandbox !== false;
         if (heading) heading.textContent = sandbox ? 'Thank you! Your test payment is confirmed.' : 'Thank you! Your payment is confirmed.';
         if (summary) {
