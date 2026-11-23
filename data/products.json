@@ -122,9 +122,9 @@
         "price": 1700
       }
     ],
-    "photo": "/images/ingredient-art-honey-cashew.png",
+    "photo": "/images/honey-cashew-almond-cropped.png",
     "imageEdited": true,
-    "ingredientArt": "/images/gingerbread-spice-art-v1.png"
+    "ingredientArt": "/images/ingredient-art-honey-cashew.png"
   },
   {
     "id": "maple-pecan",
