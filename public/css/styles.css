@@ -1014,10 +1014,10 @@ nav a[href="/"] img {
 
 /* Actual product photographs on clean white shop cards. */
 .shop-grid .product-card-photo { background: #fff; }
-.shop-grid .product-card-photo .product-image { background: #fff; overflow: hidden; }
-.shop-grid .product-photo-stage { aspect-ratio: 1; background: #fff; overflow: hidden; border-radius: 50%; /* Fades from solid black (visible) in the center to transparent (hidden) at the edge */
+.shop-grid .product-card-photo .product-image { background: #fff; overflow: hidden; border-radius: 50%; /* Fades from solid black (visible) in the center to transparent (hidden) at the edge */
   -webkit-mask-image: radial-gradient(circle, black 50%, transparent 100%);
-  mask-image: radial-gradient(circle, black 50%, transparent 100%);}
+  mask-image: radial-gradient(circle, black 50%, transparent 100%); }
+.shop-grid .product-photo-stage { aspect-ratio: 1; background: #fff; overflow: hidden;  }
 .shop-grid .product-photo-stage > .shop-jar { display: block; width: 100%; height: 100%; object-fit: cover; }
 .shop-grid .product-card-photo .card-meta { padding: 20px 24px 26px; }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
