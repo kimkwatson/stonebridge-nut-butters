@@ -98,7 +98,7 @@
     ],
     "photo": "/images/coco-cocoa-cropped.png",
     "imageEdited": true,
-    "ingredientArt": "/images/gingerbread-spice-art-v1.png"
+    "ingredientArt": "/images/ingredient-art-coco-cocoa.png"
   },
   {
     "id": "honey-cashew",
@@ -122,7 +122,7 @@
         "price": 1700
       }
     ],
-    "photo": "/images/honey-cashew-almond-cropped.png",
+    "photo": "/images/ingredient-art-honey-cashew.png",
     "imageEdited": true,
     "ingredientArt": "/images/gingerbread-spice-art-v1.png"
   },
@@ -150,7 +150,7 @@
     ],
     "photo": "/images/maple-cinn-pecan-cropped.png",
     "imageEdited": true,
-    "ingredientArt": "/images/gingerbread-spice-art-v1.png"
+    "ingredientArt": "/images/ingredient-art-maple-pecan.png"
   },
   {
     "id": "gingerbread",
