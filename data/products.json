@@ -27,7 +27,7 @@
   {
     "id": "pistachio-chocolate",
     "slug": "pistachio-chocolate",
-    "name": "Pistachio Chocolate",
+    "name": "Chocolate Pistachio Peanut Butter",
     "tag": "Rich, nutty, a little indulgent",
     "description": "Peanuts, pistachios, macadamia nuts, and chocolate come together in a rich specialty spread",
     "ingredients": "peanuts, pistachios, macadamia nuts, powdered sugar, chocolate, sea salt",
@@ -52,11 +52,11 @@
   {
     "id": "coconut-vanilla",
     "slug": "coconut-vanilla",
-    "name": "Coconut Vanilla",
+    "name": "Vanilla Coconut Peanut Butter",
     "tag": "A little tropical comfort",
-    "description": "Peanuts and macadamia nuts with coconut and vanilla for a specialty spoonful.",
-    "ingredients": "peanuts, macadamia nuts, powdered sugar, coconut, madagascar vanilla bean, sea salt",
-    "allergens": "peanuts, macadamia nuts; also contains coconut",
+    "description": "Peanuts and coconut with added vanilla for a specialty spoonful.",
+    "ingredients": "peanuts, coconut, coconut sugar, powdered sugar, madagascar vanilla bean, vanilla extract, sea salt",
+    "allergens": "peanuts; also contains coconut",
     "color": "gold",
     "featured": true,
     "sizes": [
@@ -71,8 +71,86 @@
         "price": 1700
       }
     ],
-    "photo": "/images/coco-vanilla.png",
+    "photo": "/images/coco-vanilla-cropped.png",
     "ingredientArt": "/images/ingredient-art-coconut-vanilla-v1.png"
+  },
+  {
+    "id": "coconut-chocolate",
+    "slug": "coconut-chocolate",
+    "name": "Chocolate Coconut Peanut Butter",
+    "tag": "A smooth, rich treat",
+    "description": "Peanuts and coconut with added chocolate for a decadent treat.",
+    "ingredients": "peanuts, coconut, coconut sugar, cocoa, powdered sugar, sea salt",
+    "allergens": "peanuts; also contains coconut",
+    "color": "brown",
+    "featured": false,
+    "sizes": [
+      {
+        "id": "4oz",
+        "label": "4 oz jar",
+        "price": 1000
+      },
+      {
+        "id": "8oz",
+        "label": "8 oz jar",
+        "price": 1700
+      }
+    ],
+    "photo": "/images/gingerbread-cropped.png",
+    "imageEdited": true,
+    "ingredientArt": "/images/gingerbread-spice-art-v1.png"
+  },
+  {
+    "id": "honey-cashew",
+    "slug": "honey-cashew",
+    "name": "Honey Cashew Almond Peanut Butter",
+    "tag": "A classic, nutty favorite",
+    "description": "Peanuts, cashews, and almonds blended with honey gives a mild twist to the original.",
+    "ingredients": "peanuts, cashews, almonds, honey, sea salt",
+    "allergens": "peanuts, cashews, almonds",
+    "color": "gold",
+    "featured": false,
+    "sizes": [
+      {
+        "id": "4oz",
+        "label": "4 oz jar",
+        "price": 1000
+      },
+      {
+        "id": "8oz",
+        "label": "8 oz jar",
+        "price": 1700
+      }
+    ],
+    "photo": "/images/honey-cashew-almond-cropped.png",
+    "imageEdited": true,
+    "ingredientArt": "/images/gingerbread-spice-art-v1.png"
+  },
+  {
+    "id": "maple-pecan",
+    "slug": "maple-pecan",
+    "name": "Maple Cinnamon Pecan Peanut Butter",
+    "tag": "A rich, flavor-filled and nutty bite",
+    "description": "Peanuts and pecans blended with maple and cinnamon for unique and declicious blend.",
+    "ingredients": "peanuts, pecans, maple syrup, powdered sugar, maple extract, cinnamon, sea salt",
+    "allergens": "peanuts, pecans",
+    "color": "beige",
+    "featured": false,
+    "sizes": [
+      {
+        "id": "4oz",
+        "label": "4 oz jar",
+        "price": 1000
+      },
+      {
+        "id": "8oz",
+        "label": "8 oz jar",
+        "price": 1700
+      }
+    ],
+    "photo": "/images/maple-cinn-pecan-cropped.png",
+    "imageEdited": true,
+    "ingredientArt": "/images/gingerbread-spice-art-v1.png"
   },
   {
     "id": "gingerbread",
@@ -96,7 +174,7 @@
         "price": 1700
       }
     ],
-    "photo": "/images/gingerbread.png",
+    "photo": "/images/gingerbread-cropped.png",
     "imageEdited": true,
     "ingredientArt": "/images/gingerbread-spice-art-v1.png"
   }
