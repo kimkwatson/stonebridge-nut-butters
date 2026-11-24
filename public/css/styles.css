@@ -1018,16 +1018,14 @@ nav a[href="/"] img {
 .shop-grid .product-photo-stage { position: relative; width: 100%; aspect-ratio: 1; }
 .shop-grid .product-photo-circle {
   position: absolute;
-  width: 82%;
+  width: 94%;
   aspect-ratio: 1;
-  left: 1%;
-  top: 9%;
-  transform: scale(var(--jar-scale, .82));
-  transform-origin: center;
+  left: 0;
+  top: 3%;
   border-radius: 50%;
   overflow: hidden;
-  -webkit-mask-image: radial-gradient(circle closest-side, #000 78%, #000c 86%, #0005 94%, transparent 100%);
-  mask-image: radial-gradient(circle closest-side, #000 78%, #000c 86%, #0005 94%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 86%, #000c 91%, #0005 96%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 86%, #000c 91%, #0005 96%, transparent 100%);
 }
 .shop-grid .product-photo-circle > .shop-jar {
   display: block;
@@ -1040,11 +1038,11 @@ nav a[href="/"] img {
 .shop-ingredient-art img { display: block; width: 100%; height: auto; }
 .shop-grid .product-card-photo .card-meta { padding: 20px 24px 26px; }
 @media (prefers-reduced-motion: no-preference) {
-  .shop-grid .product-photo-circle { transition: transform 400ms ease-in-out; }
+  .shop-grid .product-photo-circle > .shop-jar { transition: transform 400ms ease-in-out; }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .shop-grid .product-card-photo .product-image:hover { transform: none; }
-  .shop-grid .product-image:hover .product-photo-circle { transform: scale(calc(var(--jar-scale, .82) * 1.035)); }
+  .shop-grid .product-image:hover .product-photo-circle > .shop-jar { transform: scale(1.035); }
 }
 @media (max-width: 760px) {
   .section .shop-grid .product-card-photo .card-meta { padding: 16px 14px 22px; }

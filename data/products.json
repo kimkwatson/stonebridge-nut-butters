@@ -97,7 +97,6 @@
       }
     ],
     "photo": "/images/coco-cocoa-cropped.png",
-    "imageEdited": true,
     "ingredientArt": "/images/ingredient-art-coco-cocoa.png"
   },
   {
@@ -123,7 +122,6 @@
       }
     ],
     "photo": "/images/honey-cashew-almond-cropped.png",
-    "imageEdited": true,
     "ingredientArt": "/images/ingredient-art-honey-cashew.png"
   },
   {
@@ -149,7 +147,6 @@
       }
     ],
     "photo": "/images/maple-cinn-pecan-cropped.png",
-    "imageEdited": true,
     "ingredientArt": "/images/ingredient-art-maple-pecan.png"
   },
   {
@@ -175,7 +172,6 @@
       }
     ],
     "photo": "/images/gingerbread-cropped.png",
-    "imageEdited": true,
     "ingredientArt": "/images/gingerbread-spice-art-v1.png"
   }
 ]
