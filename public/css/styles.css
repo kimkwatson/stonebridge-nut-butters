@@ -1012,43 +1012,39 @@ nav a[href="/"] img {
 }
 /* END HERO CUTOUT EXPERIMENT */
 
-/* Actual product photographs on clean white shop cards. */
+/* Shop photographs: one square mask, independent from the ingredient artwork. */
 .shop-grid .product-card-photo { background: #fff; }
-.shop-grid .product-card-photo .product-image { background: #fff; overflow: hidden; /* Keep the product photo container square */
-.shop-grid .product-photo-stage {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
+.shop-grid .product-card-photo .product-image { background: transparent; overflow: visible; }
+.shop-grid .product-photo-stage { position: relative; width: 100%; aspect-ratio: 1; }
+.shop-grid .product-photo-circle {
+  position: absolute;
+  width: 82%;
+  aspect-ratio: 1;
+  left: 1%;
+  top: 9%;
+  transform: scale(var(--jar-scale, .82));
+  transform-origin: center;
   border-radius: 50%;
-
-  -webkit-mask-image: radial-gradient(
-    circle at center,
-    black 48%,
-    transparent 73%
-  );
-
-  mask-image: radial-gradient(
-    circle at center,
-    black 48%,
-    transparent 73%
-  );
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 78%, #000c 86%, #0005 94%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 78%, #000c 86%, #0005 94%, transparent 100%);
 }
-
-/* Make the photograph fill the circle */
-.shop-grid .product-photo-stage > .shop-jar {
+.shop-grid .product-photo-circle > .shop-jar {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
 }
-.shop-grid .product-photo-stage { aspect-ratio: 1; background: #fff; overflow: hidden; }
-.shop-grid .product-photo-stage > .shop-jar { display: block; width: 100%; height: 100%; object-fit: cover; }
+.shop-ingredient-art { position: absolute; z-index: 1; left: 58%; bottom: 16%; width: 40%; pointer-events: none; }
+.shop-ingredient-art img { display: block; width: 100%; height: auto; }
 .shop-grid .product-card-photo .card-meta { padding: 20px 24px 26px; }
+@media (prefers-reduced-motion: no-preference) {
+  .shop-grid .product-photo-circle { transition: transform 400ms ease-in-out; }
+}
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .shop-grid .product-card-photo .product-image:hover { transform: none; }
-  .shop-grid .product-photo-stage > .shop-jar { transition: transform 400ms ease; }
-  .shop-grid .product-image:hover .product-photo-stage > .shop-jar { transform: scale(1.035); }
+  .shop-grid .product-image:hover .product-photo-circle { transform: scale(calc(var(--jar-scale, .82) * 1.035)); }
 }
 @media (max-width: 760px) {
   .section .shop-grid .product-card-photo .card-meta { padding: 16px 14px 22px; }
@@ -1056,30 +1052,6 @@ nav a[href="/"] img {
 
 .product-detail-photo { width: 100%; aspect-ratio: 1; overflow: hidden; background: #fff; }
 .product-detail-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-/* Keep the photo stage rectangular */
-.shop-grid .product-photo-stage {
-  border-radius: 0;
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-
-/* Feather only the jar photograph */
-.shop-grid .product-photo-stage > .feathered-photo {
-  border-radius: 50%;
-
-  -webkit-mask-image: radial-gradient(
-    circle at center,
-    black 45%,
-    transparent 70%
-  );
-
-  mask-image: radial-gradient(
-    circle at center,
-    black 45%,
-    transparent 70%
-  );
-}
 
 /* One new-flavor feature; images always retain their natural proportions. */
 .gingerbread-feature { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
@@ -1091,13 +1063,6 @@ nav a[href="/"] img {
 .gingerbread-feature-copy .button { margin: 10px 0; }
 .card-size-label { display: block; margin-top: 15px; font-size: 12px; }
 .card-size-select { display: block; width: 100%; margin-top: 5px; }
-.shop-grid .product-photo-stage > .shop-jar { transform: scaleX(calc(.82 * var(--photo-fit, 1))) scaleY(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
-@media (prefers-reduced-motion: no-preference) {
-  .shop-grid .product-photo-stage > .shop-jar { transition: transform 400ms ease-in-out; }
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .shop-grid .product-image:hover .product-photo-stage > .shop-jar { transform: scaleX(calc(.82 * var(--photo-fit, 1) * 1.035)) scaleY(calc(var(--jar-scale, .82) * var(--photo-fit, 1) * 1.035)); }
-}
 @media (max-width: 760px) {
   .gingerbread-feature { grid-template-columns: 1fr; gap: 20px; }
   .gingerbread-feature-media { width: calc(100% + 12vw); margin-inline: -6vw; }
@@ -1120,8 +1085,6 @@ nav a[href="/"] img {
   65% { transform: rotate(2deg); }
 }
 
-/* Balance the Gingerbread cutout against the other shop photographs. */
-.shop-grid .product-card-gingerbread { --photo-fit: .92; }
 
 /* Product-detail photos share the shop image and size-dependent scale. */
 .product-detail-photo > img { transform: scaleX(calc(.82 * var(--photo-fit, 1))) scaleY(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
@@ -1141,10 +1104,7 @@ nav a[href="/"] img {
 
 /* Closely paired photographic jars and matching ingredient artwork. */
 .gingerbread-feature-art { translate: -32% 0; }
-.shop-grid .product-photo-stage { position: relative; }
-.shop-grid .product-photo-stage > .shop-jar { position: absolute; left: -12%; bottom: 0; width: 94%; height: 100%; object-fit: contain; }
-.shop-ingredient-art { position: absolute; left: 58%; bottom: 16%; width: 40%; pointer-events: none; }
-.shop-ingredient-art img { display: block; width: 100%; height: auto; }
+
 
 /* Tighter introductions without changing the page copy. */
 @media (max-width: 760px) {
@@ -1152,7 +1112,7 @@ nav a[href="/"] img {
 }
 
 /* Keep jar widths consistent between sizes and settle the feature art lower. */
-.shop-grid .product-photo-stage > .shop-jar, .product-detail-photo > img { transform-origin: center 90%; }
+.product-detail-photo > img { transform-origin: center 90%; }
 .gingerbread-feature-art { margin-bottom: 0; translate: -32% 8%; }
 
 /* Shop and Story inherit the same intro spacing and 175px GIF sizing as FAQ/Cart. */
