@@ -44,7 +44,16 @@
 <section class="section gingerbread-feature" aria-labelledby="gingerbread-title">
   <% const gingerbread = products.find(product => product.id === 'gingerbread'); %>
   <div class="gingerbread-feature-media">
-    <img class="gingerbread-feature-jar" src="<%= gingerbread.photo %>" width="1536" height="1024" loading="lazy" decoding="async" alt="Gingerbread Peanut Butter in its glass jar">
+    <div class="gingerbread-feature-photo">
+      <svg class="gingerbread-clip-definition" width="0" height="0" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="gingerbread-jar-silhouette" clipPathUnits="objectBoundingBox">
+            <path d="M .16 .205 C .16 .16 .34 .145 .5 .145 C .68 .145 .845 .165 .845 .21 L .85 .285 Q .85 .31 .84 .32 L .842 .805 C .842 .86 .69 .886 .5 .886 C .32 .886 .16 .866 .16 .811 L .158 .325 Q .153 .31 .157 .29 Z"/>
+          </clipPath>
+        </defs>
+      </svg>
+      <img class="gingerbread-feature-jar" src="<%= gingerbread.photo %>" width="1000" height="1150" loading="lazy" decoding="async" alt="Gingerbread Peanut Butter in its glass jar">
+    </div>
     <img class="gingerbread-feature-art" src="/images/gingerbread-spice-art-v1.png" width="1536" height="1024" loading="lazy" decoding="async" alt="" aria-hidden="true">
   </div>
   <div class="gingerbread-feature-copy">
