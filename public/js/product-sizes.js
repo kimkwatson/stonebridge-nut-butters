@@ -15,10 +15,10 @@
     select.addEventListener('change', update);
     update();
   });
-  const detailSize = document.querySelector('[data-add-to-cart] select[name="size"]');
+  const detailSize = document.querySelector('.product-detail [data-add-to-cart] select[name="size"]');
   const requested = new URLSearchParams(window.location.search).get('size');
   if (detailSize) {
     const valid = [...detailSize.options].some(option => option.value === requested);
-    detailSize.value = valid ? requested : '4oz';
+    if (valid) detailSize.value = requested;
   }
 })();

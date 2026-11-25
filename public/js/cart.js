@@ -125,7 +125,7 @@
         button.textContent = activeMode === 'live' ? 'Secure checkout' : 'Try test checkout';
         status.textContent = activeMode === 'live' ? 'Pay securely with Stripe.' : 'Sandbox checkout. Use a Stripe test card only.';
         const note = document.querySelector('#checkout-mode-note');
-        if (note) note.textContent = activeMode === 'live' ? 'Your payment will charge real money.' : 'Sandbox only: no real money is charged.';
+        if (note) { note.hidden = activeMode === 'live'; note.textContent = activeMode === 'live' ? '' : 'Sandbox only: no real money is charged.'; }
         render();
       } catch {
         button.disabled = true;

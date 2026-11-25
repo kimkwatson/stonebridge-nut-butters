@@ -14,16 +14,20 @@
       <a href="/products/<%= product.slug %>"><%= product.name %></a>
     </h3>
     <% if (usePhoto) { %>
+      <form class="card-add-form" data-add-to-cart data-product-id="<%= product.id %>">
       <label class="card-size-label" for="card-size-<%= product.id %>">Jar size</label>
-      <select id="card-size-<%= product.id %>" class="card-size-select" data-card-size-select>
+      <select id="card-size-<%= product.id %>" name="size" class="card-size-select" data-card-size-select>
         <% product.sizes.forEach(size => { %><option value="<%= size.id %>" data-price="<%= size.price %>" data-label="<%= size.label %>"><%= size.label %> — <%= money(size.price) %></option><% }) %>
       </select>
       <p aria-live="polite"><strong data-card-price><%= money(product.sizes[0].price) %></strong> <span data-card-size-label>/ <%= product.sizes[0].label %></span></p>
+      <input type="hidden" name="quantity" value="1">
+      <button class="button" type="submit" aria-label="Add <%= product.name %> to basket" disabled>Add to basket</button>
+      </form>
     <% } else { %>
       <p>From <%= money(product.sizes[0].price) %> <span>/ <%= product.sizes[0].label %></span></p>
     <% } %>
     <a class="text-link" data-card-order-link href="/products/<%= product.slug %>?size=<%= product.sizes[0].id %>">
-      Choose your jar <span aria-hidden="true">↗</span>
+      <%= usePhoto ? 'View details' : 'Choose your jar' %> <span aria-hidden="true">↗</span>
     </a>
   </div>
 </article>
