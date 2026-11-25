@@ -5,7 +5,6 @@
     const update = () => {
       const option = select.selectedOptions[0];
       if (!option) return;
-      card.style.setProperty('--jar-scale', option.value === '8oz' ? '1' : '.82');
       card.querySelector('[data-card-price]').textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(option.dataset.price) / 100);
       card.querySelector('[data-card-size-label]').textContent = '/ ' + option.dataset.label;
       const link = card.querySelector('[data-card-order-link]');
@@ -21,11 +20,5 @@
   if (detailSize) {
     const valid = [...detailSize.options].some(option => option.value === requested);
     detailSize.value = valid ? requested : '4oz';
-    const photo = document.querySelector('[data-detail-photo]');
-    const updateDetail = () => {
-      if (photo) photo.style.setProperty('--jar-scale', detailSize.value === '8oz' ? '1' : '.82');
-    };
-    detailSize.addEventListener('change', updateDetail);
-    updateDetail();
   }
 })();

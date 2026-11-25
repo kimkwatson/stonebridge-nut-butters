@@ -1088,12 +1088,9 @@ nav a[href="/"] img {
 }
 
 
-/* Product-detail photos share the shop image and size-dependent scale. */
-.product-detail-photo > img { transform: scaleX(calc(.82 * var(--photo-fit, 1))) scaleY(calc(var(--jar-scale, .82) * var(--photo-fit, 1))); }
+/* Product-detail photos keep a fixed, proportional size for every jar option. */
+.product-detail-photo > img { transform: scale(calc(.82 * var(--photo-fit, 1))); }
 .product-detail-photo-gingerbread { --photo-fit: .92; }
-@media (prefers-reduced-motion: no-preference) {
-  .product-detail-photo > img { transition: transform 400ms ease-in-out; }
-}
 
 .cart-row > .cart-jar-photo { flex-shrink: 0; height: auto; aspect-ratio: 1; transform: scaleX(var(--cart-jar-width, .82)) scaleY(var(--cart-jar-scale, .82)); transform-origin: center 90%; }
 

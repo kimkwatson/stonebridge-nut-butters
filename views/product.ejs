@@ -20,7 +20,7 @@
         <select id="size" name="size">
           <% product.sizes.forEach(size => { %>
             <option value="<%= size.id %>">
-              <%= size.label %> — <%= money(size.price) %>
+              <%= size.label %> — <%= money(size.price) %> (<%= money(size.price / Number.parseFloat(size.id)) %>/oz)
             </option>
           <% }) %>
         </select>

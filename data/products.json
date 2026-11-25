@@ -11,14 +11,19 @@
     "featured": true,
     "sizes": [
       {
-        "id": "4oz",
-        "label": "4 oz jar",
-        "price": 600
+        "id": "9oz",
+        "label": "9 oz jar",
+        "price": 799
       },
       {
-        "id": "8oz",
-        "label": "8 oz jar",
-        "price": 100
+        "id": "13oz",
+        "label": "13 oz jar",
+        "price": 999
+      },
+      {
+        "id": "18oz",
+        "label": "18 oz jar",
+        "price": 1299
       }
     ],
     "photo": "/images/original-cropped.png",
@@ -27,23 +32,28 @@
   {
     "id": "pistachio-chocolate",
     "slug": "pistachio-chocolate",
-    "name": "Chocolate Pistachio Peanut Butter",
+    "name": "Chocolate Pistachio Nut Butter",
     "tag": "Rich, nutty, a little indulgent",
     "description": "Peanuts, pistachios, macadamia nuts, and chocolate come together in a rich specialty spread",
-    "ingredients": "peanuts, pistachios, macadamia nuts, powdered sugar, chocolate, sea salt",
+    "ingredients": "peanuts, pistachios, powdered sugar, macadamia nuts, cocoa powder, sea salt",
     "allergens": "peanuts, pistachios, macadamia nuts",
     "color": "berry",
     "featured": true,
     "sizes": [
       {
-        "id": "4oz",
-        "label": "4 oz jar",
-        "price": 900
+        "id": "9oz",
+        "label": "9 oz jar",
+        "price": 1099
       },
       {
-        "id": "8oz",
-        "label": "8 oz jar",
-        "price": 1500
+        "id": "13oz",
+        "label": "13 oz jar",
+        "price": 1399
+      },
+      {
+        "id": "18oz",
+        "label": "18 oz jar",
+        "price": 1799
       }
     ],
     "photo": "/images/pistacchio-chocolate-cropped.png",
@@ -52,23 +62,28 @@
   {
     "id": "coconut-vanilla",
     "slug": "coconut-vanilla",
-    "name": "Vanilla Coconut Peanut Butter",
+    "name": "Vanilla Coconut Nut Butter",
     "tag": "A little tropical comfort",
     "description": "Peanuts and coconut with added vanilla for a specialty spoonful.",
-    "ingredients": "peanuts, coconut, coconut sugar, powdered sugar, madagascar vanilla bean, vanilla extract, sea salt",
+    "ingredients": "peanuts, coconut sugar, unsweetened coconut flakes, powdered sugar, vanilla extract, sea salt, madagascar vanilla bean",
     "allergens": "peanuts; also contains coconut",
     "color": "gold",
     "featured": true,
     "sizes": [
       {
-        "id": "4oz",
-        "label": "4 oz jar",
-        "price": 1000
+        "id": "9oz",
+        "label": "9 oz jar",
+        "price": 999
       },
       {
-        "id": "8oz",
-        "label": "8 oz jar",
-        "price": 1700
+        "id": "13oz",
+        "label": "13 oz jar",
+        "price": 1249
+      },
+      {
+        "id": "18oz",
+        "label": "18 oz jar",
+        "price": 1599
       }
     ],
     "photo": "/images/coco-vanilla-cropped.png",
@@ -77,23 +92,28 @@
   {
     "id": "coconut-chocolate",
     "slug": "coconut-chocolate",
-    "name": "Chocolate Coconut Peanut Butter",
+    "name": "Chocolate Coconut Nut Butter",
     "tag": "A smooth, rich treat",
     "description": "Peanuts and coconut with added chocolate for a decadent treat.",
-    "ingredients": "peanuts, coconut, coconut sugar, cocoa, powdered sugar, sea salt",
+    "ingredients": "peanuts, coconut sugar, unsweetened coconut flakes, powdered sugar, cocoa powder, sea salt",
     "allergens": "peanuts; also contains coconut",
     "color": "brown",
     "featured": false,
     "sizes": [
       {
-        "id": "4oz",
-        "label": "4 oz jar",
-        "price": 1000
+        "id": "9oz",
+        "label": "9 oz jar",
+        "price": 999
       },
       {
-        "id": "8oz",
-        "label": "8 oz jar",
-        "price": 1700
+        "id": "13oz",
+        "label": "13 oz jar",
+        "price": 1249
+      },
+      {
+        "id": "18oz",
+        "label": "18 oz jar",
+        "price": 1599
       }
     ],
     "photo": "/images/coco-cocoa-cropped.png",
@@ -102,23 +122,28 @@
   {
     "id": "honey-cashew",
     "slug": "honey-cashew",
-    "name": "Honey Cashew Almond Peanut Butter",
+    "name": "Honey Cashew Almond Nut Butter",
     "tag": "A classic, nutty favorite",
     "description": "Peanuts, cashews, and almonds blended with honey gives a mild twist to the original.",
-    "ingredients": "peanuts, cashews, almonds, honey, sea salt",
+    "ingredients": "peanuts, almonds, cashews, honey, sea salt",
     "allergens": "peanuts, cashews, almonds",
     "color": "gold",
     "featured": false,
     "sizes": [
       {
-        "id": "4oz",
-        "label": "4 oz jar",
-        "price": 1000
+        "id": "9oz",
+        "label": "9 oz jar",
+        "price": 999
       },
       {
-        "id": "8oz",
-        "label": "8 oz jar",
-        "price": 1700
+        "id": "13oz",
+        "label": "13 oz jar",
+        "price": 1249
+      },
+      {
+        "id": "18oz",
+        "label": "18 oz jar",
+        "price": 1599
       }
     ],
     "photo": "/images/honey-cashew-almond-cropped.png",
@@ -127,7 +152,7 @@
   {
     "id": "maple-pecan",
     "slug": "maple-pecan",
-    "name": "Maple Cinnamon Pecan Peanut Butter",
+    "name": "Maple Cinnamon Pecan Nut Butter",
     "tag": "A rich, flavor-filled and nutty bite",
     "description": "Peanuts and pecans blended with maple and cinnamon for unique and declicious blend.",
     "ingredients": "peanuts, pecans, maple syrup, powdered sugar, maple extract, cinnamon, sea salt",
@@ -136,14 +161,19 @@
     "featured": false,
     "sizes": [
       {
-        "id": "4oz",
-        "label": "4 oz jar",
-        "price": 1000
+        "id": "9oz",
+        "label": "9 oz jar",
+        "price": 1099
       },
       {
-        "id": "8oz",
-        "label": "8 oz jar",
-        "price": 1700
+        "id": "13oz",
+        "label": "13 oz jar",
+        "price": 1399
+      },
+      {
+        "id": "18oz",
+        "label": "18 oz jar",
+        "price": 1799
       }
     ],
     "photo": "/images/maple-cinn-pecan-cropped.png",
@@ -152,23 +182,28 @@
   {
     "id": "gingerbread",
     "slug": "gingerbread-peanut-butter",
-    "name": "Gingerbread Peanut Butter",
+    "name": "Gingerbread Nut Butter",
     "tag": "A cozy, spiced spoonful",
     "description": "Peanuts and cashews blended with molasses, cinnamon, cloves, and ginger for a warm gingerbread-inspired spread.",
-    "ingredients": "peanuts, cashews, molasses, brown sugar, cinnamon, ginger, cloves, sea salt",
+    "ingredients": "peanuts, brown sugar, cashews, molasses, sea salt, cinnamon, ginger, nutmeg, cloves, allspice.",
     "allergens": "peanuts, cashews",
     "color": "gold",
     "featured": false,
     "sizes": [
       {
-        "id": "4oz",
-        "label": "4 oz jar",
-        "price": 1000
+        "id": "9oz",
+        "label": "9 oz jar",
+        "price": 899
       },
       {
-        "id": "8oz",
-        "label": "8 oz jar",
-        "price": 1700
+        "id": "13oz",
+        "label": "13 oz jar",
+        "price": 1099
+      },
+      {
+        "id": "18oz",
+        "label": "18 oz jar",
+        "price": 1399
       }
     ],
     "photo": "/images/gingerbread-cropped.png",
