@@ -1108,7 +1108,7 @@ nav a[href="/"] img {
 
 /* Tighter introductions without changing the page copy. */
 @media (max-width: 760px) {
-  .announcement { white-space: nowrap; font-size: clamp(7.5px, 2.35vw, 11px); letter-spacing: .35px; padding-inline: 8px; }
+  .announcement { white-space: normal; overflow-wrap: anywhere; font-size: 11px; line-height: 1.5; letter-spacing: .35px; padding-inline: 12px; }
 }
 
 /* Keep jar widths consistent between sizes and settle the feature art lower. */
